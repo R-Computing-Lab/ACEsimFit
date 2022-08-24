@@ -1,0 +1,13 @@
+Package: SimFit
+Title: ACE twin data simulations and model fitting
+Version: 0.0.0.9000
+Authors@R: 
+    person("Xuanyu", "Lyu", , "lyux20@example.com", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: This is a package designed for simulating data and fitting models in the field of behavior genetics. 
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Import:
+    OpenMx (>= 2.19.1)
