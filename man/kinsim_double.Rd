@@ -9,9 +9,10 @@ kinsim_double(
   GroupSizes = c(100, 100),
   GroupRel = c(1, 0.5),
   GroupR_c = c(1, 1),
-  mu = 0,
+  mu = c(0, 0),
   ace1 = c(1, 1, 1),
-  ace2 = c(1, 1, 1)
+  ace2 = c(1, 1, 1),
+  ifComb = FALSE
 )
 }
 \arguments{
@@ -23,11 +24,13 @@ kinsim_double(
 
 \item{GroupR_c}{A numeric vector specifying two common environment correlation coefficients of the simulated kin pairs}
 
-\item{mu}{A numeric value specifying the mean for the generated variable}
+\item{mu}{A numeric vector specifying two mean values for the generated variable of the kin pairs}
 
 \item{ace1}{A numeric vector specifying three variance components under an ACE (additive genetics, common environment, unique environment) structure for group1}
 
 \item{ace2}{A numeric vector specifying three variance components under an ACE (additive genetics, common environment, unique environment) structure for group2}
+
+\item{ifComb}{A logical value specifying the approach to achieve the required genetic relatedness value. \code{TRUE} = using combination approach. \code{FALSE} = using direct approach. (See function description for a detailed explanation of two approaches.)}
 }
 \value{
 Returns \code{data.frame} with the following:
@@ -46,4 +49,7 @@ Returns \code{data.frame} with the following:
 }
 \description{
 The function to generate two groups of univariate kin pair(e.g., both MZ and DZ twins) data using a multivariate norm approach, given the ACE components.
+\cr
+\cr
+Two approaches can be selected: a) simulate two groups of kin pairs using the genetic relatedness directly b) simulate two groups of kin pairs by combining MZ twins and DZ twins to achieve the required genetic relatedness (.5<R<1).
 }
