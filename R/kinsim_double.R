@@ -53,7 +53,7 @@ kinsim_double <- function(
           df_final <- rbind(df_N1, df_N2)
           #return(df_final)
      } else{
-          if(GroupRel[1] == 1 & GroupRel[2] != 1){
+          if((GroupRel[1] == 1 | GroupRel[1]==.5) & GroupRel[2] != 1 & GroupRel[2] != .5){
                df_N1 <- kinsim_single(
                     name = GroupNames[1],
                     Rel = GroupRel[1],
@@ -84,7 +84,7 @@ kinsim_double <- function(
                df_N2$R = GroupRel[2]
                df_final <- rbind(df_N1, df_N2)
           }
-          if(GroupRel[1] != 1 & GroupRel[2] == 1){
+          if(GroupRel[1] != 1 & GroupRel[1] != .5 & (GroupRel[2] == 1 | GroupRel[2]==.5)){
                df1MZ <- kinsim_single(
                     name = GroupNames[1],
                     Rel = 1,
@@ -115,7 +115,7 @@ kinsim_double <- function(
                )
                df_final <- rbind(df_N1, df_N2)
           }
-          if(GroupRel[1] == 1 & GroupRel[2] == 1){
+          if((GroupRel[1] == 1 | GroupRel[1]==.5) & (GroupRel[2] == 1 | GroupRel[2]==.5)){
                df_N1 <- kinsim_single(
                     name = GroupNames[1],
                     Rel = GroupRel[1],
@@ -132,7 +132,7 @@ kinsim_double <- function(
                     ace = ace2)
                df_final <- rbind(df_N1, df_N2)
           }
-          if(GroupRel[1] != 1 & GroupRel[2] != 1){
+          if(GroupRel[1] != 1 & GroupRel[1] != .5 & GroupRel[2] != 1 & GroupRel[2] != .5){
                df1MZ <- kinsim_single(
                     name = GroupNames[1],
                     Rel = 1,
