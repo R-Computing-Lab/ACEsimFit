@@ -1,17 +1,17 @@
 Package: SimFit
-Title: ACE twin data simulations and model fitting
-Version: 0.0.0.90
+Title: ACE kin pair data simulations and model fitting
+Version: 0.0.0.9
 Authors@R: 
-    person("Xuanyu", "Lyu", , "lyux20@wfu.edu", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: This is a package designed for simulating data and fitting models in the field of behavior genetics. 
+    c(person("Xuanyu", "Lyu", email = "lyux20@wfu.edu", role = c("aut", "cre")),
+      person("S.Mason", "Garrison",email = "garrissm@wfu.edu", role = "aut"))
+Description: This is a package designed for simulating kin pair data and fitting genetically informed models in the field of behavior genetics. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Imports:
-    OpenMx,
-    stats
+    OpenMx (>= 2.19.6),
+    stats (>= 3.5.0)
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
