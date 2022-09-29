@@ -1,4 +1,4 @@
 library(testthat)
-library(SimFit)
+library(ACEsimFit)
 
-test_check("SimFit")
+test_check("ACEsimFit")

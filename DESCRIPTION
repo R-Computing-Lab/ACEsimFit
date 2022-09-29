@@ -1,5 +1,5 @@
-Package: SimFit
-Title: ACE kin pair data simulations and model fitting
+Package: ACEsimFit
+Title: ACE Kin Pair Data Simulations and Model Fitting
 Version: 0.0.0.9
 Authors@R: 
     c(person("Xuanyu", "Lyu", email = "lyux20@wfu.edu", role = c("aut", "cre")),
@@ -13,5 +13,7 @@ Imports:
     OpenMx (>= 2.19.6),
     stats (>= 3.5.0)
 Suggests: 
+    knitr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+VignetteBuilder: knitr
