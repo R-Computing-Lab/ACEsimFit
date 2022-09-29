@@ -1,8 +1,8 @@
 ---
-title: "SimFit"
+title: "ACEsimFit"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{SimFit}
+  %\VignetteIndexEntry{ACEsimFit}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

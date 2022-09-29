@@ -14,6 +14,7 @@ Imports:
     stats (>= 3.5.0)
 Suggests: 
     knitr,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    rmarkdown
 Config/testthat/edition: 3
 VignetteBuilder: knitr

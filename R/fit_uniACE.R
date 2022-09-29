@@ -47,7 +47,12 @@ fit_uniACE <- function(data_1, data_2, GroupRel = c(1,.5), GroupR_c = c(1,1), lb
      svMu <- 0
      svVa <- .2
      svVe <- .5
-
+     V <- NULL
+     VA <- NULL
+     VC <- NULL
+     VE <- NULL
+     cDZ <- NULL
+     cMZ <- NULL
      #variance matrix
 
      if(lbound == TRUE){
