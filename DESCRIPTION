@@ -4,7 +4,7 @@ Version: 0.0.0.9
 Authors@R: 
     c(person("Xuanyu", "Lyu", email = "lyux20@wfu.edu", role = c("aut", "cre")),
       person("S.Mason", "Garrison",email = "garrissm@wfu.edu", role = "aut"))
-Description: This is a package designed for simulating kin pair data and fitting genetically informed models in the field of behavior genetics. 
+Description: A few functions aim to provide a statistic tool for three purposes. First, simulate kin pairs data based on the assumption that every trait is affected by genetic effects (A), common environmental effects (C) and unique environmental effects (E).Second, use kin pairs data to fit an ACE model and get model fit output.Third, calculate power of A estimate given a specific condition. For the mechanisms of power calculation, we suggest to check Visscher(2004)<doi:10.1375/twin.7.5.505>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
