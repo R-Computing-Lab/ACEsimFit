@@ -1,0 +1,9 @@
+pandoc: 3.1.11
+pkgdown: 2.1.3
+pkgdown_sha: ~
+articles:
+  ACEsimFit: ACEsimFit.html
+last_built: 2025-06-18T21:51Z
+urls:
+  reference: https://r-computing-lab.github.io/ACEsimFit/reference
+  article: https://r-computing-lab.github.io/ACEsimFit/articles
