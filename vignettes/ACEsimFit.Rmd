@@ -19,6 +19,7 @@ library(ACEsimFit)
 ```
 
 ## Overview
+
 This package is designed for 
 1) Simulating kin pairs data based on the assumption that every trait is affected by genetic effects (A), common environmental effects (C) and unique environmental effects (E). 
 2) Using kin pairs data to fit an ACE model and get model fit output. 
@@ -57,12 +58,14 @@ kindata <- kinsim_double(
 )
 head(kindata)
 ```
+
 Now you can see we have a data.frame with 180 pairs of simulated twins. And we also have their variance components and other information.
 
 ## Calculate the power of the heritability estimate given the variance structure
 Generally, calculating power for the A estimate had two approaches: likelihood theory and the least squares theory. 
 
 ### Calculate power based on likelihood theory
+
 To use the likelihood theory, we need to simulate a number of datasets with the same variance structure and average the suggested power from each set of data. See a more detailed explanation at [link](http://www.people.vcu.edu/~bverhulst/power/power.html). So we need to have a set of model fitting results with the -2ll values for the ACE model and the CE model.
 
 Luckily, in our package they have a function `Sim_Fit` to simulate kin pairs data, fit them automatically into a ACE model and return the model summary results. The function fit the ACE model with the help of `OpenMx` package. 
