@@ -17,48 +17,51 @@
 #' \item{Data}{A \code{data.frame} consists of the simulated raw data}
 #' @export
 
-Sim_Fit <- function(
-     GroupNames = c("KinPair1","KinPair2"),
-     GroupSizes = c(100,100),
-     nIter = 100,
-     SSeed = 62,
-     GroupRel=c(1,.5),
-     GroupR_c=c(1,1),
-     mu = c(0,0),
-     ace1=c(1,1,1),
-     ace2=c(1,1,1),
-     ifComb=FALSE,
-     lbound=FALSE,
-     saveRaw=FALSE
-){
-     l.results <- list()
-     for(i in 1: nIter){
-          set.seed(SSeed - 1 + i)
-          df_temp <- kinsim_double(
-               GroupNames = GroupNames,
-               GroupSizes = GroupSizes,
-               GroupRel=GroupRel,
-               GroupR_c=GroupR_c,
-               mu = mu,
-               ace1=ace1,
-               ace2=ace2,
-               ifComb=ifComb)
-          if(!saveRaw){
-               l.results[[i]] <- list(
-                    Results =  fit_uniACE(
-                         data_1 = df_temp[which(df_temp$GroupName == GroupNames[1]), c("y1","y2")],
-                         data_2 = df_temp[which(df_temp$GroupName == GroupNames[2]), c("y1","y2")],
-                         GroupRel = GroupRel, GroupR_c = GroupR_c, lbound = lbound),
-                    data = NA)
-          }else{
-               l.results[[i]] <- list(
-                    Results =  fit_uniACE(
-                         data_1 = df_temp[which(df_temp$GroupName == GroupNames[1]), c("y1","y2")],
-                         data_2 = df_temp[which(df_temp$GroupName == GroupNames[2]), c("y1","y2")],
-                         GroupRel = GroupRel, GroupR_c = GroupR_c, lbound = lbound),
-                    data =  df_temp)
-          }
-          names(l.results)[[i]] <- paste("Iteration",i, sep = "")
-     }
-     return(l.results)
+Sim_Fit <- function(GroupNames = c("KinPair1", "KinPair2"),
+                    GroupSizes = c(100, 100),
+                    nIter = 100,
+                    SSeed = 62,
+                    GroupRel = c(1, .5),
+                    GroupR_c = c(1, 1),
+                    mu = c(0, 0),
+                    ace1 = c(1, 1, 1),
+                    ace2 = c(1, 1, 1),
+                    ifComb = FALSE,
+                    lbound = FALSE,
+                    saveRaw = FALSE) {
+  l.results <- list()
+  for (i in 1:nIter) {
+    set.seed(SSeed - 1 + i)
+    df_temp <- kinsim_double(
+      GroupNames = GroupNames,
+      GroupSizes = GroupSizes,
+      GroupRel = GroupRel,
+      GroupR_c = GroupR_c,
+      mu = mu,
+      ace1 = ace1,
+      ace2 = ace2,
+      ifComb = ifComb
+    )
+    if (!saveRaw) {
+      l.results[[i]] <- list(
+        Results = fit_uniACE(
+          data_1 = df_temp[which(df_temp$GroupName == GroupNames[1]), c("y1", "y2")],
+          data_2 = df_temp[which(df_temp$GroupName == GroupNames[2]), c("y1", "y2")],
+          GroupRel = GroupRel, GroupR_c = GroupR_c, lbound = lbound
+        ),
+        data = NA
+      )
+    } else {
+      l.results[[i]] <- list(
+        Results = fit_uniACE(
+          data_1 = df_temp[which(df_temp$GroupName == GroupNames[1]), c("y1", "y2")],
+          data_2 = df_temp[which(df_temp$GroupName == GroupNames[2]), c("y1", "y2")],
+          GroupRel = GroupRel, GroupR_c = GroupR_c, lbound = lbound
+        ),
+        data = df_temp
+      )
+    }
+    names(l.results)[[i]] <- paste("Iteration", i, sep = "")
+  }
+  return(l.results)
 }

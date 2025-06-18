@@ -21,45 +21,51 @@
 #' \item{y2}{generated variable i for kin2}
 #' @export
 
-kinsim_single <- function(
-     name = "KinPair1",
-     Rel=1,
-     r_c = 1,
-     n=100,
-     mu=0,
-     ace=c(1,1,1)){
+kinsim_single <- function(name = "KinPair1",
+                          Rel = 1,
+                          r_c = 1,
+                          n = 100,
+                          mu = 0,
+                          ace = c(1, 1, 1)) {
+  sA <- ace[1]^0.5
+  sC <- ace[2]^0.5
+  sE <- ace[3]^0.5
 
-     sA <- ace[1]^0.5
-     sC <- ace[2]^0.5
-     sE <- ace[3]^0.5
-
-     S2 <- matrix(c(0,1,
-                    1,0),2)
-     datalist <- list()
-
-
-     id <- 1:sum(n)
-
-     A.r <- sA*rmvn(n,
-                    sigma = diag(2) + S2*Rel)
-     C.r <- sC*rmvn(n,
-                    sigma = diag(2) + S2*r_c)
-     E.r <- cbind(stats::rnorm(n,
-                               sd = sE),
-                  stats::rnorm(n,
-                               sd = sE))
-
-     y.r <- mu + A.r + C.r + E.r
+  S2 <- matrix(c(
+    0, 1,
+    1, 0
+  ), 2)
+  datalist <- list()
 
 
-     r_ <- rep(Rel,n)
-     r_c <- rep(r_c,n)
+  id <- 1:sum(n)
 
-     groupName <- rep(name,n)
+  A.r <- sA * rmvn(n,
+    sigma = diag(2) + S2 * Rel
+  )
+  C.r <- sC * rmvn(n,
+    sigma = diag(2) + S2 * r_c
+  )
+  E.r <- cbind(
+    stats::rnorm(n,
+      sd = sE
+    ),
+    stats::rnorm(n,
+      sd = sE
+    )
+  )
 
-     data.r <- data.frame(groupName, r_, r_c, id, A.r,C.r,E.r,y.r)
+  y.r <- mu + A.r + C.r + E.r
 
-     names(data.r) <- c("GroupName","R","r_c","id","A1","A2","C1","C2","E1","E2","y1","y2")
 
-     return(data.r)
+  r_ <- rep(Rel, n)
+  r_c <- rep(r_c, n)
+
+  groupName <- rep(name, n)
+
+  data.r <- data.frame(groupName, r_, r_c, id, A.r, C.r, E.r, y.r)
+
+  names(data.r) <- c("GroupName", "R", "r_c", "id", "A1", "A2", "C1", "C2", "E1", "E2", "y1", "y2")
+
+  return(data.r)
 }

@@ -17,34 +17,29 @@
 #' @export
 
 
-Power_LS <- function(N1,N2,power,p_N1=NULL,h2,c2,R1=1,R2=.5,alpha = .05){
-     Za <- qnorm(1-alpha)
+Power_LS <- function(N1, N2, power, p_N1 = NULL, h2, c2, R1 = 1, R2 = .5, alpha = .05) {
+  Za <- qnorm(1 - alpha)
 
-     if(missing(power)){
-          Zb <- sqrt(h2^2*(abs(R1-R2)^2) / ((1-(R1*h2+c2)^2)^2/N1 + (1-(R2*h2+c2)^2)^2/N2)) - Za
-          power_result <- pnorm(Zb,0)
-          return(power_result)
-     }
-     if(!missing(N1) & missing(N2)){
-          Zb <- qnorm(power)
-          N2_result <- (1-(R2*h2+c2)^2)^2 / (h2^2*(abs(R1-R2)^2)/((Za+Zb)^2) - ((1-(R1*h2+c2)^2)^2/N1))
-          return(round(N2_result))
-     }
-     if(missing(N1) & !missing(N2)){
-          Zb <- qnorm(power)
-          N1_result <- (1-(R1*h2+c2)^2)^2 / (h2^2*(abs(R1-R2)^2)/((Za+Zb)^2) - ((1-(R2*h2+c2)^2)^2/N2))
-          return(round(N1_result))
-     }
-     if(missing(N1) & missing(N2) & !is.null(p_N1)){
-          Zb <- qnorm(power)
-          N_total <- (1-(R1*h2+c2)^2)^2/(p_N1*h2^2*abs(R1-R2)^2/((Za+Zb)^2)) +  (1-(R2*h2+c2)^2)^2/((1-p_N1)*h2^2*(abs(R1-R2)^2)/((Za+Zb)^2))
-          N1_result <- N_total * p_N1
-          N2_result <- N_total * (1-p_N1)
-          return(c(round(N1_result),round(N2_result)))
-
-     }
-
-
+  if (missing(power)) {
+    Zb <- sqrt(h2^2 * (abs(R1 - R2)^2) / ((1 - (R1 * h2 + c2)^2)^2 / N1 + (1 - (R2 * h2 + c2)^2)^2 / N2)) - Za
+    power_result <- pnorm(Zb, 0)
+    return(power_result)
+  }
+  if (!missing(N1) & missing(N2)) {
+    Zb <- qnorm(power)
+    N2_result <- (1 - (R2 * h2 + c2)^2)^2 / (h2^2 * (abs(R1 - R2)^2) / ((Za + Zb)^2) - ((1 - (R1 * h2 + c2)^2)^2 / N1))
+    return(round(N2_result))
+  }
+  if (missing(N1) & !missing(N2)) {
+    Zb <- qnorm(power)
+    N1_result <- (1 - (R1 * h2 + c2)^2)^2 / (h2^2 * (abs(R1 - R2)^2) / ((Za + Zb)^2) - ((1 - (R2 * h2 + c2)^2)^2 / N2))
+    return(round(N1_result))
+  }
+  if (missing(N1) & missing(N2) & !is.null(p_N1)) {
+    Zb <- qnorm(power)
+    N_total <- (1 - (R1 * h2 + c2)^2)^2 / (p_N1 * h2^2 * abs(R1 - R2)^2 / ((Za + Zb)^2)) + (1 - (R2 * h2 + c2)^2)^2 / ((1 - p_N1) * h2^2 * (abs(R1 - R2)^2) / ((Za + Zb)^2))
+    N1_result <- N_total * p_N1
+    N2_result <- N_total * (1 - p_N1)
+    return(c(round(N1_result), round(N2_result)))
+  }
 }
-
-

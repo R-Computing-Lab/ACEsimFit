@@ -46,14 +46,14 @@ Therefore, we set the parameters of the `kinsim_double` function like below:
 
 ```{r simulation}
 kindata <- kinsim_double(
-    GroupNames = c("SStwins", "OStwins"),
-    GroupSizes = c(120, 60),
-    GroupRel = c(.75, 0.5),
-    GroupR_c = c(1, 1),
-    mu = c(0, 0),
-    ace1 = c(.6, .2, .2),
-    ace2 = c(.6, .2, .2),
-    ifComb = TRUE
+  GroupNames = c("SStwins", "OStwins"),
+  GroupSizes = c(120, 60),
+  GroupRel = c(.75, 0.5),
+  GroupR_c = c(1, 1),
+  mu = c(0, 0),
+  ace1 = c(.6, .2, .2),
+  ace2 = c(.6, .2, .2),
+  ifComb = TRUE
 )
 head(kindata)
 ```
@@ -105,15 +105,15 @@ results_fit[["Iteration1"]][["Results"]][["nest"]]
 We can then calculated the weighted ncp with the average difference of log-likelihood for ACE and CE models.In turn, I calculated the power for the given variance structure and relatedness:
 
 ```{r powerCalculation}
-N <- 180 ##the total number of kin pairs you used in your previous simulation
+N <- 180 ## the total number of kin pairs you used in your previous simulation
 ## Calculate the average diffLL between ACE and CE model.
 DiffLL <- numeric()
-for(i in 1:50){
-  DiffLL[i] <- results_fit[[1]][["Results"]][["nest"]]$diffLL[3] 
+for (i in 1:50) {
+  DiffLL[i] <- results_fit[[1]][["Results"]][["nest"]]$diffLL[3]
 }
 meanDiffLL <- mean(DiffLL)
 ## Calculate the power based on an alpha level of .05
-Power <- 1- pchisq(qchisq(1-.05, 1), 1, meanDiffLL)
+Power <- 1 - pchisq(qchisq(1 - .05, 1), 1, meanDiffLL)
 Power
 ```
 
@@ -124,6 +124,6 @@ Unlike the likelihood theory, we don't need to run simulations to calculate powe
 
 Here I typed the parameters my research question involved into the functions.
 ```{r powerCalculation2}
-Power_LS(N1=120, N2=60, h2=.6, c2=.2, R1 = .75, R2 = 0.5, alpha = 0.05)
+Power_LS(N1 = 120, N2 = 60, h2 = .6, c2 = .2, R1 = .75, R2 = 0.5, alpha = 0.05)
 ```
 Your can see the power calculated with LS theory is different from the one with likelihood theory. This is due to 1) with the LS formula, we did't consider the combination of MZ and DZ twins to reach a relatedness of .75 2) they will be different especially when the sample size is small. In our case, if we have 1800 pairs in stead of 180, the power from likelihood theory will be 0.9890003 and the power from least squares theory will be 0.9960664. (Much more similar at this time!)

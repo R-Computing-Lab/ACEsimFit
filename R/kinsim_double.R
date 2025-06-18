@@ -26,157 +26,160 @@
 #' \item{y2}{generated variable i for kin2}
 #' @export
 
-kinsim_double <- function(
-     GroupNames = c("KinPair1","KinPair2"),
-     GroupSizes = c(100,100),
-     GroupRel=c(1,.5),
-     GroupR_c=c(1,1),
-     mu = c(0,0),
-     ace1=c(1,1,1),
-     ace2=c(1,1,1),
-     ifComb=FALSE){
-     if(!ifComb){
-          df_N1 <- kinsim_single(
-               name = GroupNames[1],
-               Rel = GroupRel[1],
-               r_c = GroupR_c[1],
-               n = GroupSizes[1],
-               mu = mu[1],
-               ace = ace1)
-          df_N2 <- kinsim_single(
-               name = GroupNames[2],
-               Rel = GroupRel[2],
-               r_c = GroupR_c[2],
-               n = GroupSizes[2],
-               mu = mu[2],
-               ace = ace2)
-          df_final <- rbind(df_N1, df_N2)
-          #return(df_final)
-     } else{
-          if((GroupRel[1] == 1 | GroupRel[1]==.5) & GroupRel[2] != 1 & GroupRel[2] != .5){
-               df_N1 <- kinsim_single(
-                    name = GroupNames[1],
-                    Rel = GroupRel[1],
-                    r_c = GroupR_c[1],
-                    n = GroupSizes[1],
-                    mu = mu[1],
-                    ace = ace1
-                    )
-               df2MZ <- kinsim_single(
-                    name = GroupNames[2],
-                    Rel = 1,
-                    r_c = GroupR_c[2],
-                    n = round((GroupRel[2]-.5)*2*GroupSizes[2]),
-                    mu = mu[2],
-                    ace = ace2
-                    )
-               df2DZ <- kinsim_single(
-                    name = GroupNames[2],
-                    Rel = .5,
-                    r_c = GroupR_c[2],
-                    n = GroupSizes[2] - round((GroupRel[2]-.5)*2*GroupSizes[2]),
-                    mu = mu[2],
-                    ace = ace2
-                    )
-               df_N2 <- rbind(df2MZ,df2DZ)
-               df_N2 <- df_N2[sample(1:nrow(df_N2)),]
-               df_N2$id <- 1:nrow(df_N2)
-               df_N2$R = GroupRel[2]
-               df_final <- rbind(df_N1, df_N2)
-          }
-          if(GroupRel[1] != 1 & GroupRel[1] != .5 & (GroupRel[2] == 1 | GroupRel[2]==.5)){
-               df1MZ <- kinsim_single(
-                    name = GroupNames[1],
-                    Rel = 1,
-                    r_c = GroupR_c[1],
-                    n = round((GroupRel[1]-.5)*2*GroupSizes[1]),
-                    mu = mu[1],
-                    ace = ace1
-               )
-               df1DZ <- kinsim_single(
-                    name = GroupNames[1],
-                    Rel = .5,
-                    r_c = GroupR_c[1],
-                    n = GroupSizes[1] - round((GroupRel[1]-.5)*2*GroupSizes[1]),
-                    mu = mu[1],
-                    ace = ace1
-               )
-               df_N1 <- rbind(df1MZ,df1DZ)
-               df_N1 <- df_N1[sample(1:nrow(df_N1)),]
-               df_N1$id <- 1:nrow(df_N1)
-               df_N1$R = GroupRel[1]
-               df_N2 <- kinsim_single(
-                    name = GroupNames[2],
-                    Rel = GroupRel[2],
-                    r_c = GroupR_c[2],
-                    n = GroupSizes[2],
-                    mu = mu[2],
-                    ace = ace2
-               )
-               df_final <- rbind(df_N1, df_N2)
-          }
-          if((GroupRel[1] == 1 | GroupRel[1]==.5) & (GroupRel[2] == 1 | GroupRel[2]==.5)){
-               df_N1 <- kinsim_single(
-                    name = GroupNames[1],
-                    Rel = GroupRel[1],
-                    r_c = GroupR_c[1],
-                    n = GroupSizes[1],
-                    mu = mu[1],
-                    ace = ace1)
-               df_N2 <- kinsim_single(
-                    name = GroupNames[2],
-                    Rel = GroupRel[2],
-                    r_c = GroupR_c[2],
-                    n = GroupSizes[2],
-                    mu = mu[2],
-                    ace = ace2)
-               df_final <- rbind(df_N1, df_N2)
-          }
-          if(GroupRel[1] != 1 & GroupRel[1] != .5 & GroupRel[2] != 1 & GroupRel[2] != .5){
-               df1MZ <- kinsim_single(
-                    name = GroupNames[1],
-                    Rel = 1,
-                    r_c = GroupR_c[1],
-                    n = round((GroupRel[1]-.5)*2*GroupSizes[1]),
-                    mu = mu[1],
-                    ace = ace1
-               )
-               df1DZ <- kinsim_single(
-                    name = GroupNames[1],
-                    Rel = .5,
-                    r_c = GroupR_c[1],
-                    n = GroupSizes[1] - round((GroupRel[1]-.5)*2*GroupSizes[1]),
-                    mu = mu[1],
-                    ace = ace1
-               )
-               df_N1 <- rbind(df1MZ,df1DZ)
-               df_N1 <- df_N1[sample(1:nrow(df_N1)),]
-               df_N1$id <- 1:nrow(df_N1)
-               df_N1$R = GroupRel[1]
+kinsim_double <- function(GroupNames = c("KinPair1", "KinPair2"),
+                          GroupSizes = c(100, 100),
+                          GroupRel = c(1, .5),
+                          GroupR_c = c(1, 1),
+                          mu = c(0, 0),
+                          ace1 = c(1, 1, 1),
+                          ace2 = c(1, 1, 1),
+                          ifComb = FALSE) {
+  if (!ifComb) {
+    df_N1 <- kinsim_single(
+      name = GroupNames[1],
+      Rel = GroupRel[1],
+      r_c = GroupR_c[1],
+      n = GroupSizes[1],
+      mu = mu[1],
+      ace = ace1
+    )
+    df_N2 <- kinsim_single(
+      name = GroupNames[2],
+      Rel = GroupRel[2],
+      r_c = GroupR_c[2],
+      n = GroupSizes[2],
+      mu = mu[2],
+      ace = ace2
+    )
+    df_final <- rbind(df_N1, df_N2)
+    # return(df_final)
+  } else {
+    if ((GroupRel[1] == 1 | GroupRel[1] == .5) & GroupRel[2] != 1 & GroupRel[2] != .5) {
+      df_N1 <- kinsim_single(
+        name = GroupNames[1],
+        Rel = GroupRel[1],
+        r_c = GroupR_c[1],
+        n = GroupSizes[1],
+        mu = mu[1],
+        ace = ace1
+      )
+      df2MZ <- kinsim_single(
+        name = GroupNames[2],
+        Rel = 1,
+        r_c = GroupR_c[2],
+        n = round((GroupRel[2] - .5) * 2 * GroupSizes[2]),
+        mu = mu[2],
+        ace = ace2
+      )
+      df2DZ <- kinsim_single(
+        name = GroupNames[2],
+        Rel = .5,
+        r_c = GroupR_c[2],
+        n = GroupSizes[2] - round((GroupRel[2] - .5) * 2 * GroupSizes[2]),
+        mu = mu[2],
+        ace = ace2
+      )
+      df_N2 <- rbind(df2MZ, df2DZ)
+      df_N2 <- df_N2[sample(1:nrow(df_N2)), ]
+      df_N2$id <- 1:nrow(df_N2)
+      df_N2$R <- GroupRel[2]
+      df_final <- rbind(df_N1, df_N2)
+    }
+    if (GroupRel[1] != 1 & GroupRel[1] != .5 & (GroupRel[2] == 1 | GroupRel[2] == .5)) {
+      df1MZ <- kinsim_single(
+        name = GroupNames[1],
+        Rel = 1,
+        r_c = GroupR_c[1],
+        n = round((GroupRel[1] - .5) * 2 * GroupSizes[1]),
+        mu = mu[1],
+        ace = ace1
+      )
+      df1DZ <- kinsim_single(
+        name = GroupNames[1],
+        Rel = .5,
+        r_c = GroupR_c[1],
+        n = GroupSizes[1] - round((GroupRel[1] - .5) * 2 * GroupSizes[1]),
+        mu = mu[1],
+        ace = ace1
+      )
+      df_N1 <- rbind(df1MZ, df1DZ)
+      df_N1 <- df_N1[sample(1:nrow(df_N1)), ]
+      df_N1$id <- 1:nrow(df_N1)
+      df_N1$R <- GroupRel[1]
+      df_N2 <- kinsim_single(
+        name = GroupNames[2],
+        Rel = GroupRel[2],
+        r_c = GroupR_c[2],
+        n = GroupSizes[2],
+        mu = mu[2],
+        ace = ace2
+      )
+      df_final <- rbind(df_N1, df_N2)
+    }
+    if ((GroupRel[1] == 1 | GroupRel[1] == .5) & (GroupRel[2] == 1 | GroupRel[2] == .5)) {
+      df_N1 <- kinsim_single(
+        name = GroupNames[1],
+        Rel = GroupRel[1],
+        r_c = GroupR_c[1],
+        n = GroupSizes[1],
+        mu = mu[1],
+        ace = ace1
+      )
+      df_N2 <- kinsim_single(
+        name = GroupNames[2],
+        Rel = GroupRel[2],
+        r_c = GroupR_c[2],
+        n = GroupSizes[2],
+        mu = mu[2],
+        ace = ace2
+      )
+      df_final <- rbind(df_N1, df_N2)
+    }
+    if (GroupRel[1] != 1 & GroupRel[1] != .5 & GroupRel[2] != 1 & GroupRel[2] != .5) {
+      df1MZ <- kinsim_single(
+        name = GroupNames[1],
+        Rel = 1,
+        r_c = GroupR_c[1],
+        n = round((GroupRel[1] - .5) * 2 * GroupSizes[1]),
+        mu = mu[1],
+        ace = ace1
+      )
+      df1DZ <- kinsim_single(
+        name = GroupNames[1],
+        Rel = .5,
+        r_c = GroupR_c[1],
+        n = GroupSizes[1] - round((GroupRel[1] - .5) * 2 * GroupSizes[1]),
+        mu = mu[1],
+        ace = ace1
+      )
+      df_N1 <- rbind(df1MZ, df1DZ)
+      df_N1 <- df_N1[sample(1:nrow(df_N1)), ]
+      df_N1$id <- 1:nrow(df_N1)
+      df_N1$R <- GroupRel[1]
 
-               df2MZ <- kinsim_single(
-                    name = GroupNames[2],
-                    Rel = 1,
-                    r_c = GroupR_c[2],
-                    n = round((GroupRel[2]-.5)*2*GroupSizes[2]),
-                    mu = mu[2],
-                    ace = ace2
-               )
-               df2DZ <- kinsim_single(
-                    name = GroupNames[2],
-                    Rel = .5,
-                    r_c = GroupR_c[2],
-                    n = GroupSizes[2] - round((GroupRel[2]-.5)*2*GroupSizes[2]),
-                    mu = mu[2],
-                    ace = ace2
-               )
-               df_N2 <- rbind(df2MZ,df2DZ)
-               df_N2 <- df_N2[sample(1:nrow(df_N2)),]
-               df_N2$id <- 1:nrow(df_N2)
-               df_N2$R = GroupRel[2]
+      df2MZ <- kinsim_single(
+        name = GroupNames[2],
+        Rel = 1,
+        r_c = GroupR_c[2],
+        n = round((GroupRel[2] - .5) * 2 * GroupSizes[2]),
+        mu = mu[2],
+        ace = ace2
+      )
+      df2DZ <- kinsim_single(
+        name = GroupNames[2],
+        Rel = .5,
+        r_c = GroupR_c[2],
+        n = GroupSizes[2] - round((GroupRel[2] - .5) * 2 * GroupSizes[2]),
+        mu = mu[2],
+        ace = ace2
+      )
+      df_N2 <- rbind(df2MZ, df2DZ)
+      df_N2 <- df_N2[sample(1:nrow(df_N2)), ]
+      df_N2$id <- 1:nrow(df_N2)
+      df_N2$R <- GroupRel[2]
 
-               df_final <- rbind(df_N1, df_N2)
-          }
-     }
-     return(df_final)
+      df_final <- rbind(df_N1, df_N2)
+    }
+  }
+  return(df_final)
 }
