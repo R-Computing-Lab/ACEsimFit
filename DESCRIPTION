@@ -20,3 +20,4 @@ Suggests:
     BGmisc
 Config/testthat/edition: 3
 VignetteBuilder: knitr
+URL: https://r-computing-lab.github.io/ACEsimFit/
