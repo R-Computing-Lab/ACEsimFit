@@ -2,7 +2,7 @@
 #' @description The function to generate one group of univariate kin pair (e.g., only DZ twins) data using a multivariate norm approach, given the ACE components.
 #' @param name Assigned name for the simulated group of kin pairs
 #' @param Rel Genetic relatedness of the simulated kin pairs
-#' @param r_c Assumed common enviroment correlation
+#' @param r_c Assumed common environment correlation
 #' @param n The number of generated kin pairs.(n PAIRS of data; The total number of participants is 2n)
 #' @param mu The mean for generated variable
 #' @param ace Vector of variance components under an ACE (additive genetics, common environment, unique environment) structure

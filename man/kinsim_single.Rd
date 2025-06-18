@@ -18,7 +18,7 @@ kinsim_single(
 
 \item{Rel}{Genetic relatedness of the simulated kin pairs}
 
-\item{r_c}{Assumed common enviroment correlation}
+\item{r_c}{Assumed common environment correlation}
 
 \item{n}{The number of generated kin pairs.(n PAIRS of data; The total number of participants is 2n)}
 

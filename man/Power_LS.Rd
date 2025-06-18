@@ -4,7 +4,18 @@
 \alias{Power_LS}
 \title{Power_LS}
 \usage{
-Power_LS(N1, N2, power, p_N1 = NULL, h2, c2, R1 = 1, R2 = 0.5, alpha = 0.05)
+Power_LS(
+  N1,
+  N2,
+  power,
+  p_N1 = NULL,
+  h2,
+  c2,
+  R1 = 1,
+  R2 = 0.5,
+  alpha = 0.05,
+  digits = 0
+)
 }
 \arguments{
 \item{N1}{The number of kin pairs for group1 (amount of PAIRS)}
@@ -24,6 +35,8 @@ Power_LS(N1, N2, power, p_N1 = NULL, h2, c2, R1 = 1, R2 = 0.5, alpha = 0.05)
 \item{R2}{The genetic relatedness of kin pair group2}
 
 \item{alpha}{The type-one error rate for heritability estimation.}
+
+\item{digits}{The number of digits to round the results. Default is 0.}
 }
 \value{
 A numeric \code{vector} of power when \code{N1} and \code{N2} are both specified.
@@ -32,5 +45,5 @@ A numeric \code{vector} of \code{N1} (or \code{N2}) when \code{N2} (or \code{N1}
 }
 \description{
 The function is designed for calculating the power of heritability estimation from ACE models given the parameter settings. Or calculate one of the parameter settings (N,R,h2,c2) given the rest of known parameters.
-This power calculator is made based on the Least Squares theory and follows the mathematical derivation proposed by Visscher(2004).
+This power calculator is made based on the Least Squares theory and follows the mathematical derivation proposed by Visscher (2004).
 }
