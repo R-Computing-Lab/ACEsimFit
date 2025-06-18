@@ -1,10 +1,11 @@
 Package: ACEsimFit
 Title: ACE Kin Pair Data Simulations and Model Fitting
-Version: 0.0.0.9
+Version: 0.0.1.0
+Date: 2025
 Authors@R: 
     c(person("Xuanyu", "Lyu", email = "lyux20@wfu.edu", role = c("aut", "cre")),
       person("S.Mason", "Garrison", email = "garrissm@wfu.edu", role = "aut"))
-Description: A few functions aim to provide a statistic tool for three purposes. First, simulate kin pairs data based on the assumption that every trait is affected by genetic effects (A), common environmental effects (C) and unique environmental effects (E). Second, use kin pairs data to fit an ACE model and get model fit output. Third, calculate power of A estimate given a specific condition. For the mechanisms of power calculation, we suggest to check Visscher(2004) <doi:10.1375/twin.7.5.505>.
+Description: A few functions aim to provide a statistic tool for three purposes. First, simulate kin pairs data based on the assumption that every trait is affected by genetic effects (A), common environmental effects (C) and unique environmental effects (E). Second, use kin pairs data to fit an ACE model and get model fit output. Third, calculate power of A estimate given a specific condition. For the mechanisms of power calculation, we suggest to read Visscher (2004) <doi:10.1375/twin.7.5.505>, as well as Lyu and Garrison (2023) <doi:10.1017/thg.2023.40>
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
