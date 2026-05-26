@@ -2,8 +2,11 @@
 
 export(Power_LS)
 export(Sim_Fit)
+export(Sim_Fit2)
+export(fit_OrdACE)
 export(fit_uniACE)
 export(kinsim_double)
+export(kinsim_double2)
 export(kinsim_single)
 import(OpenMx)
 import(stats)

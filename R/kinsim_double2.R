@@ -34,7 +34,7 @@ kinsim_double2 <- function(GroupNames = c("KinPair1", "KinPair2"),
                           mu = c(0, 0),
                           ace1 = c(1, 1, 1),
                           ace2 = c(1, 1, 1),
-                          missing = c(.20,.10), 
+                          missing = c(.20,.10),
                           ifComb = FALSE) {
   if (!ifComb) {
     df_N1 <- kinsim_single(
@@ -55,15 +55,15 @@ kinsim_double2 <- function(GroupNames = c("KinPair1", "KinPair2"),
     )
     df_final <- rbind(df_N1, df_N2)
     df_final <- df_final %>% mutate(y1 = case_when(
-      R == GroupRel[1] ~ ifelse(runif(n()) < missing[1], NA, y1), 
+      R == GroupRel[1] ~ ifelse(runif(n()) < missing[1], NA, y1),
       R == GroupRel[2] ~ ifelse(runif(n()) < missing[2], NA, y1)))  %>%
       mutate(y2 = case_when(
-        is.na(y1) ~ NA, 
+        is.na(y1) ~ NA,
         TRUE ~ y2
       ))  %>%
       mutate(Ord_1 = case_when(
         y1 <= -2 ~ 1,
-        y1 <= -1 ~ 2,      
+        y1 <= -1 ~ 2,
         y1 <= 0 ~ 3,
         y1 < 1 ~ 3,
         y1 >= 2 ~ 4,
@@ -77,10 +77,12 @@ kinsim_double2 <- function(GroupNames = c("KinPair1", "KinPair2"),
         y2 >= 2 ~ 4,
         is.na(y2) ~ 4,
       ))
-    
+
      return(df_final)
   } else {
     if ((GroupRel[1] == 1 | GroupRel[1] == .5) & GroupRel[2] != 1 & GroupRel[2] != .5) {
+      
+      print(paste("the if statement you think is running is running"))
       df_N1 <- kinsim_single(
         name = GroupNames[1],
         Rel = GroupRel[1],
@@ -93,7 +95,7 @@ kinsim_double2 <- function(GroupNames = c("KinPair1", "KinPair2"),
         name = GroupNames[2],
         Rel = 1,
         r_c = GroupR_c[2],
-        n = round((GroupRel[2] - .5) * 2 * GroupSizes[2]),
+        n = GroupSizes[2], #round((GroupRel[2] - .5) * 2 * GroupSizes[2]),
         mu = mu[2],
         ace = ace2
       )
@@ -101,7 +103,7 @@ kinsim_double2 <- function(GroupNames = c("KinPair1", "KinPair2"),
         name = GroupNames[2],
         Rel = .5,
         r_c = GroupR_c[2],
-        n = GroupSizes[2] - round((GroupRel[2] - .5) * 2 * GroupSizes[2]),
+        n = GroupSizes[2], #GroupSizes[2] - round((GroupRel[2] - .5) * 2 * GroupSizes[2]),
         mu = mu[2],
         ace = ace2
       )
@@ -111,15 +113,15 @@ kinsim_double2 <- function(GroupNames = c("KinPair1", "KinPair2"),
       df_N2$R <- GroupRel[2]
       df_final <- rbind(df_N1, df_N2)
       df_final <- df_final %>% mutate(y1 = case_when(
-        R == GroupRel[1] ~ ifelse(runif(n()) < missing[1], NA, y1), 
+        R == GroupRel[1] ~ ifelse(runif(n()) < missing[1], NA, y1),
         R == GroupRel[2] ~ ifelse(runif(n()) < missing[2], NA, y1)))  %>%
         mutate(y2 = case_when(
-          is.na(y1) ~ NA, 
+          is.na(y1) ~ NA,
           TRUE ~ y2
         ))  %>%
         mutate(Ord_1 = case_when(
           y1 <= -2 ~ 1,
-          y1 <= -1 ~ 2,      
+          y1 <= -1 ~ 2,
           y1 <= 0 ~ 3,
           y1 < 1 ~ 3,
           y1 >= 2 ~ 4,
@@ -165,15 +167,15 @@ kinsim_double2 <- function(GroupNames = c("KinPair1", "KinPair2"),
       )
       df_final <- rbind(df_N1, df_N2)
       df_final <- df_final %>% mutate(y1 = case_when(
-        R == GroupRel[1] ~ ifelse(runif(n()) < missing[1], NA, y1), 
+        R == GroupRel[1] ~ ifelse(runif(n()) < missing[1], NA, y1),
         R == GroupRel[2] ~ ifelse(runif(n()) < missing[2], NA, y1)))  %>%
         mutate(y2 = case_when(
-          is.na(y1) ~ NA, 
+          is.na(y1) ~ NA,
           TRUE ~ y2
         )) %>%
         mutate(Ord_1 = case_when(
           y1 <= -2 ~ 1,
-          y1 <= -1 ~ 2,      
+          y1 <= -1 ~ 2,
           y1 <= 0 ~ 3,
           y1 < 1 ~ 3,
           y1 >= 2 ~ 4,
@@ -207,15 +209,15 @@ kinsim_double2 <- function(GroupNames = c("KinPair1", "KinPair2"),
       )
       df_final <- rbind(df_N1, df_N2)
       df_final <- df_final %>% mutate(y1 = case_when(
-        R == GroupRel[1] ~ ifelse(runif(n()) < missing[1], NA, y1), 
+        R == GroupRel[1] ~ ifelse(runif(n()) < missing[1], NA, y1),
         R == GroupRel[2] ~ ifelse(runif(n()) < missing[2], NA, y1)))  %>%
         mutate(y2 = case_when(
-          is.na(y1) ~ NA, 
+          is.na(y1) ~ NA,
           TRUE ~ y2
         )) %>%
         mutate(Ord_1 = case_when(
           y1 <= -2 ~ 1,
-          y1 <= -1 ~ 2,      
+          y1 <= -1 ~ 2,
           y1 <= 0 ~ 3,
           y1 < 1 ~ 3,
           y1 >= 2 ~ 4,
@@ -231,6 +233,9 @@ kinsim_double2 <- function(GroupNames = c("KinPair1", "KinPair2"),
         ))
     }
     if (GroupRel[1] != 1 & GroupRel[1] != .5 & GroupRel[2] != 1 & GroupRel[2] != .5) {
+
+         print(paste("running the new condition"))
+
       df1MZ <- kinsim_single(
         name = GroupNames[1],
         Rel = 1,
@@ -251,7 +256,7 @@ kinsim_double2 <- function(GroupNames = c("KinPair1", "KinPair2"),
       df_N1 <- df_N1[sample(1:nrow(df_N1)), ]
       df_N1$id <- 1:nrow(df_N1)
       df_N1$R <- GroupRel[1]
-      
+
       df2MZ <- kinsim_single(
         name = GroupNames[2],
         Rel = 1,
@@ -272,18 +277,18 @@ kinsim_double2 <- function(GroupNames = c("KinPair1", "KinPair2"),
       df_N2 <- df_N2[sample(1:nrow(df_N2)), ]
       df_N2$id <- 1:nrow(df_N2)
       df_N2$R <- GroupRel[2]
-      
+
       df_final <- rbind(df_N1, df_N2)
       df_final <- df_final %>% mutate(y1 = case_when(
-        R == GroupRel[1] ~ ifelse(runif(n()) < missing[1], NA, y1), 
+        R == GroupRel[1] ~ ifelse(runif(n()) < missing[1], NA, y1),
         R == GroupRel[2] ~ ifelse(runif(n()) < missing[2], NA, y1)))  %>%
         mutate(y2 = case_when(
-          is.na(y1) ~ NA, 
+          is.na(y1) ~ NA,
           TRUE ~ y2
         ))  %>%
         mutate(Ord_1 = case_when(
           y1 <= -2 ~ 1,
-          y1 <= -1 ~ 2,      
+          y1 <= -1 ~ 2,
           y1 <= 0 ~ 3,
           y1 < 1 ~ 3,
           y1 >= 1 ~ 4,
@@ -298,6 +303,7 @@ kinsim_double2 <- function(GroupNames = c("KinPair1", "KinPair2"),
           is.na(y2) ~ 4,
         ))
     }
+
   }
   return(df_final)
 }
