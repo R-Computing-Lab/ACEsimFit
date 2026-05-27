@@ -138,7 +138,7 @@ results_fit <- Sim_Fit(
 time2 <- Sys.time()
 ## FYI, the time used for the results above is here. So design your simulation wisely!!!
 time2 - time1
-#> Time difference of 43.02106 secs
+#> Time difference of 40.93213 secs
 ```
 
 Here’s one example of the nested comparison table from the results
