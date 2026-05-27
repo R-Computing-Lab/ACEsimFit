@@ -9,7 +9,7 @@
 #' @param mu A numeric vector specifying two mean values for the generated variable of the kin pairs
 #' @param ace1 A numeric vector specifying three variance components under an ACE (additive genetics, common environment, unique environment) structure for group1
 #' @param ace2 A numeric vector specifying three variance components under an ACE (additive genetics, common environment, unique environment) structure for group2
-#' @param missing A numeric vector specifying the percentage random missing data for kin pairs
+#' @param prop_missing A numeric vector specifying the percentage random missing data for kin pairs
 #' @param ifComb A logical value specifying the approach to achieve the required genetic relatedness value. \code{TRUE} = using combination approach. \code{FALSE} = using direct approach. (See function description for a detailed explanation of two approaches.)
 #' @param lbound A logical value indicating if a lower boundary of .0001 will be imposed to the estimated A, C and E components
 #' @param saveRaw A logical value specifying if the raw simulated data should be saved in the output list
@@ -34,7 +34,7 @@ Sim_Fit2 <- function(GroupNames = c("KinPair1", "KinPair2"),
                     mu = c(0, 0),
                     ace1 = c(1, 1, 1),
                     ace2 = c(1, 1, 1),
-                    missing = c(.20,.10),
+                    prop_missing = c(.20,.20),
                     ifComb = FALSE,
                     lbound = FALSE,
                     saveRaw = TRUE,
@@ -54,7 +54,7 @@ Sim_Fit2 <- function(GroupNames = c("KinPair1", "KinPair2"),
       GroupRel = GroupRel,
       GroupR_c = GroupR_c,
       mu = mu,
-      missing = missing,
+      prop_missing = prop_missing,
       ace1 = ace1,
       ace2 = ace2,
       ifComb = ifComb
