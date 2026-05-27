@@ -10,7 +10,7 @@
 #' @param mu A numeric vector specifying two mean values for the generated variable of the kin pairs
 #' @param ace1 A numeric vector specifying three variance components under an ACE (additive genetics, common environment, unique environment) structure for group1
 #' @param ace2 A numeric vector specifying three variance components under an ACE (additive genetics, common environment, unique environment) structure for group2
-#' @param missing A numeric vectir specifying the percentage random missing data for kin pairs
+#' @param missing A numeric vector specifying the percentage random missing data for kin pairs
 #' @param ifComb A logical value specifying the approach to achieve the required genetic relatedness value. \code{TRUE} = using combination approach. \code{FALSE} = using direct approach. (See function description for a detailed explanation of two approaches.)
 #' @return Returns \code{data.frame} with the following:
 #' \item{GroupName}{group name of the kin pairs}
@@ -81,7 +81,7 @@ kinsim_double2 <- function(GroupNames = c("KinPair1", "KinPair2"),
      return(df_final)
   } else {
     if ((GroupRel[1] == 1 | GroupRel[1] == .5) & GroupRel[2] != 1 & GroupRel[2] != .5) {
-      
+
       print(paste("the if statement you think is running is running"))
       df_N1 <- kinsim_single(
         name = GroupNames[1],
