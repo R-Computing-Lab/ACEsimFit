@@ -12,7 +12,7 @@ kinsim_double2(
   mu = c(0, 0),
   ace1 = c(1, 1, 1),
   ace2 = c(1, 1, 1),
-  missing = c(0.2, 0.1),
+  prop_missing = c(0.2, 0.2),
   ifComb = FALSE
 )
 }
@@ -31,7 +31,7 @@ kinsim_double2(
 
 \item{ace2}{A numeric vector specifying three variance components under an ACE (additive genetics, common environment, unique environment) structure for group2}
 
-\item{missing}{A numeric vectir specifying the percentage random missing data for kin pairs}
+\item{prop_missing}{A numeric vector specifying the percentage random missing data for kin pairs}
 
 \item{ifComb}{A logical value specifying the approach to achieve the required genetic relatedness value. \code{TRUE} = using combination approach. \code{FALSE} = using direct approach. (See function description for a detailed explanation of two approaches.)}
 }

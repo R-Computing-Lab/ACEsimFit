@@ -38,7 +38,7 @@ kinsim_single <- function(name = "KinPair1",
   datalist <- list()
 
 
-  id <- 1:sum(n)
+  id <- seq_len(n)
 
   A.r <- sA * rmvn(n,
     sigma = diag(2) + S2 * Rel
@@ -59,11 +59,11 @@ kinsim_single <- function(name = "KinPair1",
 
 
   r_ <- rep(Rel, n)
-  r_c <- rep(r_c, n)
+  r_c_vec <- rep(r_c, n)
 
   groupName <- rep(name, n)
 
-  data.r <- data.frame(groupName, r_, r_c, id, A.r, C.r, E.r, y.r)
+  data.r <- data.frame(groupName, r_, r_c_vec, id, A.r, C.r, E.r, y.r)
 
   names(data.r) <- c("GroupName", "R", "r_c", "id", "A1", "A2", "C1", "C2", "E1", "E2", "y1", "y2")
 

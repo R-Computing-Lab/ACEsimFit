@@ -9,21 +9,21 @@
 #' @param mu A numeric vector specifying two mean values for the generated variable of the kin pairs
 #' @param ace1 A numeric vector specifying three variance components under an ACE (additive genetics, common environment, unique environment) structure for group1
 #' @param ace2 A numeric vector specifying three variance components under an ACE (additive genetics, common environment, unique environment) structure for group2
-#' @param missing A numeric vector specifying the percentage random missing data for kin pairs
+#' @param prop_missing A numeric vector specifying the percentage random missing data for kin pairs
 #' @param ifComb A logical value specifying the approach to achieve the required genetic relatedness value. \code{TRUE} = using combination approach. \code{FALSE} = using direct approach. (See function description for a detailed explanation of two approaches.)
 #' @param lbound A logical value indicating if a lower boundary of .0001 will be imposed to the estimated A, C and E components
 #' @param saveRaw A logical value specifying if the raw simulated data should be saved in the output list
-#' @param Ord a logical value specifying if the data will also be analyzed with a threshold model 
-#' @param nth a numerical value specifying the number of thresholds, if applicable, for the threshold model 
+#' @param Ord a logical value specifying if the data will also be analyzed with a threshold model
+#' @param nth a numerical value specifying the number of thresholds, if applicable, for the threshold model
 #' #eventually add an argument called: plot a logical value specifying if you want the density distributions of the estimates (faceted by analysis type)
 #' @return Returns a two-level \code{list}. Level-one is the number of iterations. Level-two is the model fitting results and raw data (if \code{saveRaw = TRUE}) of the simulated data from the respective iteration. Level-two includes:
 #' \item{Results}{A \code{list} including 1) A \code{data.frame} displaying the nested comparison model between ACE, AE, CE, E models and 2) A \code{list} of all model fit information generated from OpenMx}
 #' \item{Data}{A \code{data.frame} consists of the simulated raw data}
-#' #I need to figure out how to add in the ord results as part of the return 
+#' #I need to figure out how to add in the ord results as part of the return
 #' @export
-#' 
-#' 
-#' 
+
+#'
+#'
 
 Sim_Fit2 <- function(GroupNames = c("KinPair1", "KinPair2"),
                     GroupSizes = c(100, 100),
@@ -34,7 +34,7 @@ Sim_Fit2 <- function(GroupNames = c("KinPair1", "KinPair2"),
                     mu = c(0, 0),
                     ace1 = c(1, 1, 1),
                     ace2 = c(1, 1, 1),
-                    missing = c(.20,.10),
+                    prop_missing = c(.20,.20),
                     ifComb = FALSE,
                     lbound = FALSE,
                     saveRaw = TRUE,
@@ -42,10 +42,10 @@ Sim_Fit2 <- function(GroupNames = c("KinPair1", "KinPair2"),
                     nth = 4 #,
                 #    plot = TRUE
                 ) {
- 
+
    l.results <- list()
   l.resultsOrd <- list()
-  
+
   for (i in 1:nIter) {
     set.seed(SSeed - 1 + i)
     df_temp <- kinsim_double2(
@@ -54,7 +54,7 @@ Sim_Fit2 <- function(GroupNames = c("KinPair1", "KinPair2"),
       GroupRel = GroupRel,
       GroupR_c = GroupR_c,
       mu = mu,
-      missing = missing, 
+      prop_missing = prop_missing,
       ace1 = ace1,
       ace2 = ace2,
       ifComb = ifComb
@@ -62,7 +62,7 @@ Sim_Fit2 <- function(GroupNames = c("KinPair1", "KinPair2"),
     if (!saveRaw) {
       l.results[[i]] <- list(
         Results = fit_uniACE(
-          data_1 = df_temp[which(df_temp$GroupName == GroupNames[1]), c("y1", "y2")], 
+          data_1 = df_temp[which(df_temp$GroupName == GroupNames[1]), c("y1", "y2")],
           data_2 = df_temp[which(df_temp$GroupName == GroupNames[2]), c("y1", "y2")],
           GroupRel = GroupRel, GroupR_c = GroupR_c, lbound = lbound #,
        #   nth = 1
@@ -76,41 +76,41 @@ Sim_Fit2 <- function(GroupNames = c("KinPair1", "KinPair2"),
           data_2 = df_temp[which(df_temp$GroupName == GroupNames[2]), c("y1", "y2")],
           GroupRel = GroupRel, GroupR_c = GroupR_c, lbound = lbound
         ),
-        
-        
+
+
         data = df_temp,
         assign("df_temp", df_temp, envir = .GlobalEnv),
         assign("table", table, envir = .GlobalEnv)
       )
-    
-    } 
-    
+
+    }
+
       if(Ord) {
-        
+
       l.resultsOrd[[i]] <- list(
         Results = fit_OrdACE(
-          nth = 4,
-          data_1 = df_temp[which(df_temp$GroupName == GroupNames[1]), c("Ord_1", "Ord_2")], 
-          data_2 = df_temp[which(df_temp$GroupName == GroupNames[2]), c("Ord_1", "Ord_2")], 
-          GroupRel = GroupRel, 
-          GroupR_c = GroupR_c, 
+          data_1 = df_temp[which(df_temp$GroupName == GroupNames[1]), c("Ord_1", "Ord_2")],
+          data_2 = df_temp[which(df_temp$GroupName == GroupNames[2]), c("Ord_1", "Ord_2")],
+          GroupRel = GroupRel,
+          GroupR_c = GroupR_c,
+          nth = nth,
           lbound = TRUE
         ),
-        
+
         data = df_temp
       )
-      
+
       error = function(e) {
         message(paste("Iteration", i, "failed due to factor level mismatch. Skipping Ordinal.")) }
-      
-      }  
-    
+
+      }
+
     names(l.results)[[i]] <- paste("Iteration", i, sep = "")
     names(l.resultsOrd)[[i]] <- paste("Iteration", i, sep = "")
-    
-  
+
+
     results <- list(Interval = l.results, Ordinal = l.resultsOrd)
-    
+
   }
   return(results)
 

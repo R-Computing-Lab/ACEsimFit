@@ -6,6 +6,7 @@
 ^CRAN-SUBMISSION$
 ^cran-comments\.md$
 ^_pkgdown\.yml$
+^data-raw$
 ^docs$
 ^pkgdown$
 ^\.positai$

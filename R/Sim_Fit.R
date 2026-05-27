@@ -42,25 +42,13 @@ Sim_Fit <- function(GroupNames = c("KinPair1", "KinPair2"),
       ace2 = ace2,
       ifComb = ifComb
     )
-    if (!saveRaw) {
-      l.results[[i]] <- list(
-        Results = fit_uniACE(
-          data_1 = df_temp[which(df_temp$GroupName == GroupNames[1]), c("y1", "y2")],
-          data_2 = df_temp[which(df_temp$GroupName == GroupNames[2]), c("y1", "y2")],
-          GroupRel = GroupRel, GroupR_c = GroupR_c, lbound = lbound
-        ),
-        data = NA
-      )
-    } else {
-      l.results[[i]] <- list(
-        Results = fit_uniACE(
-          data_1 = df_temp[which(df_temp$GroupName == GroupNames[1]), c("y1", "y2")],
-          data_2 = df_temp[which(df_temp$GroupName == GroupNames[2]), c("y1", "y2")],
-          GroupRel = GroupRel, GroupR_c = GroupR_c, lbound = lbound
-        ),
-        data = df_temp
-      )
-    }
+    fit_result <- fit_uniACE(
+      data_1 = df_temp[which(df_temp$GroupName == GroupNames[1]), c("y1", "y2")],
+      data_2 = df_temp[which(df_temp$GroupName == GroupNames[2]), c("y1", "y2")],
+      GroupRel = GroupRel, GroupR_c = GroupR_c, lbound = lbound
+    )
+    l.results[[i]] <- list(Results = fit_result,
+                           data = if (saveRaw==TRUE) df_temp else NA)
     names(l.results)[[i]] <- paste("Iteration", i, sep = "")
   }
   return(l.results)
