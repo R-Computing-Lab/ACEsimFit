@@ -12,10 +12,13 @@ library(tidyr)
 library(ggplot2)
 library(dplyr)
 library(ACEsimFit)
-source("R/Sim_Fit2.R")
-source("R/kinsim_double2.R")
-source("R/fit_OrdACE.R")
-source("R/Harvest.R")
+library(polycor)
+library(purrr)
+source("Sim_Fit2.R")
+source("kinsim_double2.R")
+source("fit_OrdACE.R")
+source("Harvest.R")
+source("~/Documents/Research/Github/risky_gambling/data/miFunctions.R")
 ```
 
 
@@ -36,6 +39,17 @@ results_fit <- Sim_Fit2(
   lbound = FALSE,
   saveRaw = TRUE,
   Ord = TRUE)
+
+table_ord <- harvest(results_fit, "Ordinal")
+table_int <- harvest(results_fit, "Interval")
+
+final_results <- rbind(table_ord, table_int)
+final_results <- final_results %>% mutate(TV = VA11 + VC11 + VE11,
+                                          A = VA11 / TV,
+                                          C = VC11 / TV,
+                                          E = VE11 / TV) %>%
+  select(-c("VA11","VC11","VE11","TV"))
+final_results
 
 true_A <- 0.50
 true_C <- 0.20
@@ -136,7 +150,7 @@ ggplot(final_results) +
     axis.ticks.y = element_blank()) +
 
     labs(title = "Distribution of Simulation Results",
-       subtitle = "Siblings and Half Siblings",
+       subtitle = "MZs and DZs",
        y = "Density",
        fill = "Parameter Estimate")
 
