@@ -1,6 +1,5 @@
 #' fit_uniACE
 #' @description Use OpenMx to quickly fit a univariate ACE model
-#' @import OpenMx
 #' @param data_1 A n by 2 \code{data.frame} consisting of the group1 kin pairs
 #' @param data_2 A n by 2 \code{data.frame} consisting of the group2 kin pairs
 #' @param GroupRel A numeric vector specifying two genetic relatedness values of two groups of kin pairs
@@ -10,6 +9,7 @@
 #' \item{df_nested}{A \code{data.frame} displaying the nested comparison model between ACE, AE, CE, E models}
 #' \item{fitACE}{A \code{list} of all model fit information generated from OpenMx}
 #' @export
+#' @importFrom OpenMx mxMatrix mxAlgebra mxData mxExpectationNormal mxFitFunctionML mxModel mxRun mxCI mxFitFunctionMultigroup omxSetParameters mxCompare
 
 fit_uniACE <- function(data_1, data_2, GroupRel = c(1, .5), GroupR_c = c(1, 1), lbound = FALSE) {
   # Load Libraries & Options
