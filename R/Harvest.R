@@ -25,7 +25,7 @@ harvest <- function(results_fit, type) {
      target_list <- results_fit[[type]]
 
      # 2. Loop through every iteration using imap (which tracks the iteration name)
-     master_df <- purr::imap_dfr(target_list, function(iteration_data, iter_name) {
+     master_df <- purrr::imap_dfr(target_list, function(iteration_data, iter_name) {
 
           # pull the parameters
           param_table <- as.data.frame(iteration_data[["Results"]][["summary"]][["parameters"]])

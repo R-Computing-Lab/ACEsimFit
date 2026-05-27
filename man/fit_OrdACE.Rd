@@ -9,7 +9,7 @@ fit_OrdACE(
   data_2,
   GroupRel = c(1, 0.5),
   GroupR_c = c(1, 1),
-  nth,
+  nth = 4,
   lbound = FALSE
 )
 }

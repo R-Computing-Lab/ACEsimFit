@@ -13,7 +13,9 @@
 #' \item{fitACE}{A \code{list} of all model fit information generated from OpenMx}
 #' @export
 
-fit_OrdACE <- function(data_1, data_2, GroupRel = c(1, .5), GroupR_c = c(1, 1), nth, lbound = FALSE) {
+fit_OrdACE <- function(data_1, data_2, GroupRel = c(1, .5), GroupR_c = c(1, 1),
+                       nth = 4
+                       , lbound = FALSE) {
   # Load Libraries & Options
   # require(OpenMx)
   # require(psych)
@@ -26,7 +28,7 @@ fit_OrdACE <- function(data_1, data_2, GroupRel = c(1, .5), GroupR_c = c(1, 1), 
   # ----------------------------------------------------------------------------------------------------------------------
   # PREPARE DATA
 
-  nth <- nth
+ # nth <- nth
 
   # Load Data
   FSData <- data_1 #in the Sim_Fit2.R function it already assigns the groups and the variable names

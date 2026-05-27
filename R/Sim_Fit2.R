@@ -94,6 +94,7 @@ Sim_Fit2 <- function(GroupNames = c("KinPair1", "KinPair2"),
           data_2 = df_temp[which(df_temp$GroupName == GroupNames[2]), c("Ord_1", "Ord_2")],
           GroupRel = GroupRel,
           GroupR_c = GroupR_c,
+          nth = nth,
           lbound = TRUE
         ),
 
