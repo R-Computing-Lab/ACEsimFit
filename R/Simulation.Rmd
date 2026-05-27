@@ -1,0 +1,144 @@
+---
+title: "Simulation"
+author: "Cailey Fay & Mason Garrison"
+date: "2026-05-27"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(OpenMx)
+library(tidyr)
+library(ggplot2)
+library(dplyr)
+library(ACEsimFit)
+source("R/Sim_Fit2.R")
+source("R/kinsim_double2.R")
+source("R/fit_OrdACE.R")
+source("R/Harvest.R")
+```
+
+
+```{r sibs and half sibs }
+results_fit <- Sim_Fit2(
+  GroupNames = c("FS", "HS"),
+  GroupSizes = c(2500, 2500),
+  nIter = 20,
+  SSeed = 62,
+  GroupRel = c(.5, .25), #this works but it changes the sample size adjustment so there are 7500 obs when I asked for 5000
+  GroupR_c = c(1, 1),
+  nth = 4,
+  mu = c(0,0), 
+  ace1 = c(.5, .2, .3), #other to do: fork ACEsimFit and work off my own version of the package 
+  ace2 = c(.5, .2, .3),
+  missing = c(.50,.30),
+  ifComb = TRUE,
+  lbound = FALSE,
+  saveRaw = TRUE,
+  Ord = TRUE)
+
+true_A <- 0.50
+true_C <- 0.20
+true_E <- 0.30
+
+#plot <- 
+ggplot(final_results) +
+  geom_density(aes(x = A, fill = "Additive Genetic (A)"), alpha = 0.4, color = "#9E7E38") +
+  geom_density(aes(x = C, fill = "Shared Environment (C)"), alpha = 0.4, color = "#D4AF37") +
+  geom_density(aes(x = E, fill = "Error (E)"), alpha = 0.4, color = "#4A4E41") +
+  
+  geom_vline(xintercept = true_A, color = "#9E7E38", linetype = "dashed", size = 1) +
+  geom_vline(xintercept = true_C, color = "#D4AF37", linetype = "dashed", size = 1) +
+  geom_vline(xintercept = true_E, color = "#4A4E41", linetype = "dashed", size = 1) +
+  scale_fill_manual(
+  values = c(
+    "Additive Genetic (A)" = "#9E7E38",
+    "Shared Environment (C)" = "#D4AF37",
+    "Error (E)" = "#4A4E41")) +
+
+  facet_wrap(~Analysis) +
+
+    theme_minimal() +
+  
+  theme(axis.title.x = element_blank(),
+    text = element_text(family = "Baskerville", color = "black"),#not to self turn the text to white and then its ready for poster (already has transparent background)
+    panel.background = element_rect(fill = "transparent", color = NA),
+    plot.background = element_rect(fill = "transparent", color = NA),
+    panel.grid = element_blank(),
+    axis.ticks.y = element_blank()) +
+
+    labs(title = "Distribution of Simulation Results",
+       subtitle = "Siblings and Half Siblings",
+       y = "Density",
+       fill = "Parameter Estimate")
+
+#ggsave('simresults.PNG', plot, bg = 'transparent', dpi = 300)
+```
+
+MZ and DZs 
+```{r}
+results_fit <- Sim_Fit2(
+  GroupNames = c("FS", "HS"),
+  GroupSizes = c(2500, 2500),
+  nIter = 20,
+  SSeed = 62,
+  GroupRel = c(1, .5), #now we are back to having the sample size adjustment, so this is truly 5,000 obs whereas the sibs and half sibs one is 7500
+  GroupR_c = c(1, 1),
+  nth = 4,
+  mu = c(0,0), 
+  ace1 = c(.5, .2, .3), #other to do: fork ACEsimFit and work off my own version of the package 
+  ace2 = c(.5, .2, .3),
+  missing = c(.50,.30),
+  ifComb = TRUE,
+  lbound = FALSE,
+  saveRaw = TRUE,
+  Ord = TRUE)
+
+table_ord <- harvest(results_fit, "Ordinal")
+table_int <- harvest(results_fit, "Interval")
+
+final_results <- rbind(table_ord, table_int)
+final_results <- final_results %>% mutate(TV = VA11 + VC11 + VE11,
+                                          A = VA11 / TV,
+                                          C = VC11 / TV,
+                                          E = VE11 / TV) %>%
+  select(-c("VA11","VC11","VE11","TV"))
+final_results
+
+true_A <- 0.50
+true_C <- 0.20
+true_E <- 0.30
+
+#plot <- 
+ggplot(final_results) +
+  geom_density(aes(x = A, fill = "Additive Genetic (A)"), alpha = 0.4, color = "#9E7E38") +
+  geom_density(aes(x = C, fill = "Shared Environment (C)"), alpha = 0.4, color = "#D4AF37") +
+  geom_density(aes(x = E, fill = "Error (E)"), alpha = 0.4, color = "#4A4E41") +
+  
+  geom_vline(xintercept = true_A, color = "#9E7E38", linetype = "dashed", size = 1) +
+  geom_vline(xintercept = true_C, color = "#D4AF37", linetype = "dashed", size = 1) +
+  geom_vline(xintercept = true_E, color = "#4A4E41", linetype = "dashed", size = 1) +
+  scale_fill_manual(
+  values = c(
+    "Additive Genetic (A)" = "#9E7E38",
+    "Shared Environment (C)" = "#D4AF37",
+    "Error (E)" = "#4A4E41")) +
+
+  facet_wrap(~Analysis) +
+
+    theme_minimal() +
+  
+  theme(axis.title.x = element_blank(),
+    text = element_text(family = "Baskerville", color = "black"),#not to self turn the text to white and then its ready for poster (already has transparent background)
+    panel.background = element_rect(fill = "transparent", color = NA),
+    plot.background = element_rect(fill = "transparent", color = NA),
+    panel.grid = element_blank(),
+    axis.ticks.y = element_blank()) +
+
+    labs(title = "Distribution of Simulation Results",
+       subtitle = "Siblings and Half Siblings",
+       y = "Density",
+       fill = "Parameter Estimate")
+
+#ggsave('simresults.PNG', plot, bg = 'transparent', dpi = 300)
+```
