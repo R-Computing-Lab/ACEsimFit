@@ -31,8 +31,8 @@ results_fit <- Sim_Fit2(
   mu = c(0,0), 
   ace1 = c(.5, .2, .3), #other to do: fork ACEsimFit and work off my own version of the package 
   ace2 = c(.5, .2, .3),
-  missing = c(.50,.30),
-  ifComb = TRUE,
+  prop_missing = c(.50,.30),
+  ifComb = FALSE,
   lbound = FALSE,
   saveRaw = TRUE,
   Ord = TRUE)
