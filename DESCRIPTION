@@ -9,7 +9,6 @@ Description: A few functions aim to provide a statistic tool for three purposes.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
 Imports:
     OpenMx (>= 2.19.6),
     stats (>= 3.5.0)
@@ -21,3 +20,4 @@ Suggests:
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 URL: https://r-computing-lab.github.io/ACEsimFit/
+Config/roxygen2/version: 8.0.0
