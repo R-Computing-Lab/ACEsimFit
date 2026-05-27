@@ -115,18 +115,18 @@ fit_uniACE <- function(data_1, data_2, GroupRel = c(1, .5), GroupR_c = c(1, 1), 
   # Run AE model
   modelAE <- mxModel(modelACE, name = "oneAEvc")
   modelAE <- omxSetParameters(modelAE, labels = "VC11", free = FALSE, values = 0)
-  fitAE <- mxRun(modelAE, intervals = T, silent = TRUE)
+  fitAE <- mxRun(modelAE, intervals = TRUE, silent = TRUE)
   # fitGofs(fitAE); fitEstCis(fitAE)
   # Run CE model
   modelCE <- mxModel(modelACE, name = "oneCEvc")
   modelCE <- omxSetParameters(modelCE, labels = "VA11", free = FALSE, values = 0)
   modelCE <- omxSetParameters(modelCE, labels = c("VE11", "VC11"), free = TRUE, values = .6)
-  fitCE <- mxRun(modelCE, intervals = T, silent = TRUE)
+  fitCE <- mxRun(modelCE, intervals = TRUE, silent = TRUE)
   # fitGofs(fitCE); fitEstCis(fitCE)
   # Run E model
   modelE <- mxModel(modelACE, name = "oneEvc")
   modelE <- omxSetParameters(modelE, labels = c("VA11", "VC11"), free = FALSE, values = 0)
-  fitE <- mxRun(modelE, intervals = T, silent = TRUE)
+  fitE <- mxRun(modelE, intervals = TRUE, silent = TRUE)
   # fitGofs(fitE); fitEstCis(fitE)
   # Print Comparative Fit Statistics
   df_nested <- mxCompare(fitACE, nested <- list(fitAE, fitCE, fitE))

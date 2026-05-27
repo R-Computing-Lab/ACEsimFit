@@ -43,4 +43,5 @@ Power_LS <- function(N1, N2, power, p_N1 = NULL, h2, c2, R1 = 1, R2 = .5, alpha 
     N2_result <- N_total * (1 - p_N1)
     return(c(round(N1_result, digits = digits), round(N2_result, digits = digits)))
   }
+  stop("Invalid argument combination: specify N1, N2, or p_N1 to solve for sample size, or omit 'power' to calculate power from N1 and N2.")
 }
