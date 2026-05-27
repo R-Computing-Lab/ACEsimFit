@@ -25,6 +25,24 @@ fit_OrdACE <- function(data_1, data_2, GroupRel = c(1, .5), GroupR_c = c(1, 1),
   # filename <- "oneACEc"
   # sink(paste(filename,".Ro",sep=""), append=FALSE, split=TRUE)
 
+
+  # internal functions
+  fitGofS   <- function(fit) {
+    summ <- summary(fit)
+    cat(paste("Mx:", fit$name,"  #statistics=", summ$ob,"  #records=", summ$nu,"   #parameters=", summ$es,
+              "   #constraints=", sum(summ$cons),"  df=", summ$de, "  -2LL=", round(summ$Mi,4),
+              "  cpu=", round(summ$cpu,4),"  optim=", summ$op,"  version=", summ$mx,
+              "  code=", fit$output$status$code, "\n",sep=""))
+  }
+  fitEstCis   <- function(fit) {
+    print(round(fit$output$estimate,4))
+    print(round(fit$output$confidenceIntervals,4))
+  }
+  labTh     <- function(lab,vars,nth) {
+    paste(paste("t",1:nth,lab,sep=""),
+          rep(vars,each=nth),
+          sep="")
+    }
   # ----------------------------------------------------------------------------------------------------------------------
   # PREPARE DATA
 
@@ -87,12 +105,16 @@ fit_OrdACE <- function(data_1, data_2, GroupRel = c(1, .5), GroupR_c = c(1, 1),
   #   covE <- mxMatrix(type = "Symm", nrow = nv, ncol = nv, free = TRUE, values = svVe, labels = "VE11", name = "VE")
   # }
 
+
+
+
   #PREPARE MODEL
   # Create Algebra for expected Mean & Threshold Matrices
 
   meanG <- mxMatrix( type="Zero", nrow=1, ncol=ntv, name="meanG" )
 
-  thinG <- mxMatrix( type="Full", nrow=nth, ncol=ntv, free=TRUE, values=svTh, lbound=lbTh, labels=labTh("th",vars,nth), name="thinG")
+  thinG <- mxMatrix( type="Full", nrow=nth, ncol=ntv, free=TRUE, values=svTh, lbound=lbTh,
+                     labels=labTh("th",vars,nth), name="thinG")
 
   inc <- mxMatrix( type="Lower", nrow=nth, ncol=nth, free=FALSE, values=1, name="inc" )
 
@@ -154,8 +176,10 @@ fit_OrdACE <- function(data_1, data_2, GroupRel = c(1, .5), GroupR_c = c(1, 1),
   #lrtSAT(fitACE,4207.7738,1762)
 
   # Print Goodness-of-fit Statistics & Parameter Estimates
-  fitGofs(fitACE)
-  fitEstCis(fitACE)
+
+
+#  fitGofs(fitACE)
+#  fitEstCis(fitACE)
 
   # ----------------------------------------------------------------------------------------------------------------------
   # RUN SUBMODELS
@@ -163,14 +187,15 @@ fit_OrdACE <- function(data_1, data_2, GroupRel = c(1, .5), GroupR_c = c(1, 1),
   modelAE <- mxModel( fitACE, name="oneAEvo" )
   modelAE <- omxSetParameters( modelAE, labels="VC11", free=FALSE, values=0 )
   fitAE <- mxRun( modelAE, intervals=T )
- fitGofs(fitAE); fitEstCis(fitAE)
+
+ # fitGofs(fitAE); fitEstCis(fitAE)
 
   # Run CE model
   modelCE <- mxModel( fitACE, name="oneCEvo" )
   modelCE <- omxSetParameters( modelCE, labels="VA11", free=FALSE, values=0 )
   modelCE <- omxSetParameters( modelCE, labels=c("VE11","VC11"), free=TRUE, values=.6 )
   fitCE <- mxRun( modelCE, intervals=TRUE )
- fitGofs(fitCE); fitEstCis(fitCE)
+#  fitGofs(fitCE); fitEstCis(fitCE)
 
   # Run E model
  # modelE <- mxModel( fitAE, name="oneEvo" )

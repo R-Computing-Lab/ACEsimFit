@@ -3,7 +3,7 @@
 #' @param n Sample Size
 #' @param sigma Covariance matrix
 #' @return Generates multivariate normal data from a covariance matrix (\code{sigma}) of length \code{n}
-#'
+#' @importFrom stats rnorm
 rmvn <- function(n, sigma) {
   Sh <- with(
     svd(sigma),
@@ -24,7 +24,7 @@ rmvn <- function(n, sigma) {
 #' @param prop_missing A numeric vector of length 2 specifying the proportion of missing values
 #' for each group. The first element corresponds to the first group in GroupNames, and the second element corresponds to the second group.
 #' @return A modified data frame with missing values added to 'y1' and 'y2' according to the specified proportions, and new ordinal columns 'Ord_1' and 'Ord_2' added based on the cutpoints applied to 'y1' and 'y2 respectively.
-
+#' @importFrom stats runif
 .add_missing <- function(df, GroupNames, prop_missing) {
   in_g1 <- df$GroupName == GroupNames[1]
   in_g2 <- df$GroupName == GroupNames[2]
@@ -66,3 +66,6 @@ rmvn <- function(n, sigma) {
   df_missing$Ord_2 <- .to_ord(df_missing$y2)
   df_missing
 }
+
+
+

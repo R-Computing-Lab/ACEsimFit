@@ -89,7 +89,6 @@ Sim_Fit2 <- function(GroupNames = c("KinPair1", "KinPair2"),
 
       l.resultsOrd[[i]] <- list(
         Results = fit_OrdACE(
-          nth = 4,
           data_1 = df_temp[which(df_temp$GroupName == GroupNames[1]), c("Ord_1", "Ord_2")],
           data_2 = df_temp[which(df_temp$GroupName == GroupNames[2]), c("Ord_1", "Ord_2")],
           GroupRel = GroupRel,
