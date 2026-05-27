@@ -13,6 +13,9 @@ Roxygen: list(markdown = TRUE)
 Imports:
     OpenMx (>= 2.19.6),
     stats (>= 3.5.0),
+    dplyr,
+    purr,
+    tidyr,
     polycor
 Suggests: 
     knitr,
