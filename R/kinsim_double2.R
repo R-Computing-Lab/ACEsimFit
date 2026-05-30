@@ -194,6 +194,7 @@ kinsim_double2 <- function(GroupNames = c("KinPair1", "KinPair2"),
     df_final <- .add_missing_and_ordinal(df_final,
                                          GroupNames=GroupNames,
                                          prop_missing=prop_missing)
+
   }
   return(df_final)
 }
