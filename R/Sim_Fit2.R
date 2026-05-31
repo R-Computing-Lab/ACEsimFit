@@ -26,92 +26,102 @@
 #'
 
 Sim_Fit2 <- function(GroupNames = c("KinPair1", "KinPair2"),
-                    GroupSizes = c(100, 100),
-                    nIter = 100,
-                    SSeed = 22,
-                    GroupRel = c(1, .5),
-                    GroupR_c = c(1, 1),
-                    mu = c(0, 0),
-                    ace1 = c(1, 1, 1),
-                    ace2 = c(1, 1, 1),
-                    prop_missing = c(.20,.20),
-                    ifComb = FALSE,
-                    lbound = FALSE,
-                    saveRaw = TRUE,
-                    Ord = TRUE,
-                    nth = 4 #,
-                #    plot = TRUE
-                ) {
+                     GroupSizes = c(100, 100),
+                     nIter = 100,
+                     SSeed = 22,
+                     GroupRel = c(1, .5),
+                     GroupR_c = c(1, 1),
+                     mu = c(0, 0),
+                     ace1 = c(1, 1, 1),
+                     ace2 = c(1, 1, 1),
+                     prop_missing = c(.20,.20),
+                     ifComb = FALSE,
+                     lbound = FALSE,
+                     saveRaw = TRUE,
+                     Ord = TRUE,
+                     nth = 4 #,
+                     #    plot = TRUE
+) {
 
-   l.results <- list()
-  l.resultsOrd <- list()
+     l.results <- list()
+     l.resultsOrd <- list()
 
-  for (i in 1:nIter) {
-    set.seed(SSeed - 1 + i)
-    df_temp <- kinsim_double2(
-      GroupNames = GroupNames,
-      GroupSizes = GroupSizes,
-      GroupRel = GroupRel,
-      GroupR_c = GroupR_c,
-      mu = mu,
-      prop_missing = prop_missing,
-      ace1 = ace1,
-      ace2 = ace2,
-      ifComb = ifComb
-    )
-    if (!saveRaw) {
-      l.results[[i]] <- list(
-        Results = fit_uniACE(
-          data_1 = df_temp[which(df_temp$GroupName == GroupNames[1]), c("y1", "y2")],
-          data_2 = df_temp[which(df_temp$GroupName == GroupNames[2]), c("y1", "y2")],
-          GroupRel = GroupRel, GroupR_c = GroupR_c, lbound = lbound #,
-       #   nth = 1
-        ),
-        data = NA
-      )
-    } else {
-      l.results[[i]] <- list(
-        Results = ACEsimFit::fit_uniACE(
-          data_1 = df_temp[which(df_temp$GroupName == GroupNames[1]), c("y1", "y2")],
-          data_2 = df_temp[which(df_temp$GroupName == GroupNames[2]), c("y1", "y2")],
-          GroupRel = GroupRel, GroupR_c = GroupR_c, lbound = lbound
-        ),
+     for (i in 1:nIter) {
+          set.seed(SSeed - 1 + i)
+          df_temp <- kinsim_double2(
+               GroupNames = GroupNames,
+               GroupSizes = GroupSizes,
+               GroupRel = GroupRel,
+               GroupR_c = GroupR_c,
+               mu = mu,
+               prop_missing = prop_missing,
+               ace1 = ace1,
+               ace2 = ace2,
+               ifComb = ifComb
+          )
+
+          l.results[[i]] <- tryCatch({
+               if (!saveRaw) {
+                    list(
+                         Results = fit_uniACE(
+                              data_1 = df_temp[which(df_temp$GroupName == GroupNames[1]), c("y1", "y2")],
+                              data_2 = df_temp[which(df_temp$GroupName == GroupNames[2]), c("y1", "y2")],
+                              GroupRel = GroupRel, GroupR_c = GroupR_c, lbound = lbound #,
+                              #    nth = 1
+                         ),
+                         data = NA
+                    )
+               } else {
+
+                    assign("df_temp", df_temp, envir = .GlobalEnv)
+                    assign("table", table, envir = .GlobalEnv)
+
+                    list(
+                         Results = ACEsimFit::fit_uniACE(
+                              data_1 = df_temp[which(df_temp$GroupName == GroupNames[1]), c("y1", "y2")],
+                              data_2 = df_temp[which(df_temp$GroupName == GroupNames[2]), c("y1", "y2")],
+                              GroupRel = GroupRel, GroupR_c = GroupR_c, lbound = lbound),
+                         data = df_temp
+                    )
+
+               }
+
+          }, error = function(e) {
+               message(paste("Iteration", i, "failed for Interval model. Skipping..."))
+               return(NA) # If Interval fails, store NULL in this iteration's slot
+          })
+
+          if(Ord) {
+
+               l.resultsOrd[[i]] <- tryCatch({
+                    list(
+                         Results = fit_OrdACE(
+                              data_1 = df_temp[which(df_temp$GroupName == GroupNames[1]), c("Ord_1", "Ord_2")],
+                              data_2 = df_temp[which(df_temp$GroupName == GroupNames[2]), c("Ord_1", "Ord_2")],
+                              GroupRel = GroupRel,
+                              GroupR_c = GroupR_c,
+                              nth = nth,
+                              lbound = TRUE
+                         ),
+                         data = df_temp
+                    )
+               }, error = function(e){
+                    # This utilizes your original intended message!
+                    message(paste("Iteration", i, "failed because of a mysterious reason. Skipping Ordinal."))
+                    return(NA) # If Ordinal fails, store NULL in this slot
+               })
+          }
 
 
-        data = df_temp,
-        assign("df_temp", df_temp, envir = .GlobalEnv),
-        assign("table", table, envir = .GlobalEnv)
-      )
+          names(l.results)[[i]] <- paste("Iteration", i, sep = "")
+          names(l.resultsOrd)[[i]] <- paste("Iteration", i, sep = "")
 
-    }
+     }
 
-      if(Ord) {
+     results <- list(Interval = l.results, Ordinal = l.resultsOrd)
 
-      l.resultsOrd[[i]] <- list(
-        Results = fit_OrdACE(
-          data_1 = df_temp[which(df_temp$GroupName == GroupNames[1]), c("Ord_1", "Ord_2")],
-          data_2 = df_temp[which(df_temp$GroupName == GroupNames[2]), c("Ord_1", "Ord_2")],
-          GroupRel = GroupRel,
-          GroupR_c = GroupR_c,
-          nth = nth,
-          lbound = TRUE
-        ),
-
-        data = df_temp
-      )
-
-      error = function(e) {
-        message(paste("Iteration", i, "failed due to factor level mismatch. Skipping Ordinal.")) }
-
-      }
-
-    names(l.results)[[i]] <- paste("Iteration", i, sep = "")
-    names(l.resultsOrd)[[i]] <- paste("Iteration", i, sep = "")
-
-
-    results <- list(Interval = l.results, Ordinal = l.resultsOrd)
-
-  }
-  return(results)
+     return(results)
 
 }
+
+

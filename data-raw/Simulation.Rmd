@@ -23,43 +23,224 @@ source("~/Documents/Research/Github/risky_gambling/ACEsimFit2/R/Internal.R")
 ```
 
 
-```{r sibs and half sibs }
-results_fit <- Sim_Fit2(
+Example: generating three sets identical except they are 25%, 50%, and 75% censored (with sibs and half sibs)
+```{r}
+source("~/Documents/Research/Github/risky_gambling/ACEsimFit2/R/plotSim.R")
+results_fit1 <- Sim_Fit2(
   GroupNames = c("FS", "HS"),
-  GroupSizes = c(2500, 2500),
-  nIter = 2,
+  GroupSizes = c(1000, 1000),
+  nIter = 20,
   SSeed = 62,
-  GroupRel = c(.5, .25), #this works but it changes the sample size adjustment so there are 7500 obs when I asked for 5000
+  GroupRel = c(.5, .25), 
   GroupR_c = c(1, 1),
   nth = 4,
   mu = c(0,0), 
-  ace1 = c(.5, .2, .3), #other to do: fork ACEsimFit and work off my own version of the package 
-  ace2 = c(.5, .2, .3),
+  ace1 = c(.6, .2, .2), 
+  ace2 = c(.6, .2, .2),
+  prop_missing = c(.2,.2),
+  ifComb = FALSE,
+  lbound = FALSE,
+  saveRaw = FALSE,
+  Ord = TRUE)
+
+use_for_plots1 <- make_parameter_df(results_fit = results_fit1, GroupRel = c(.5, 0.25), prop_missing = c(.2,.2), true_A = .6, true_C = .2, true_E = .2)
+
+results_fit2 <- Sim_Fit2(
+  GroupNames = c("FS", "HS"),
+  GroupSizes = c(1000, 1000),
+  nIter = 20,
+  SSeed = 63,
+  GroupRel = c(.5, .25), 
+  GroupR_c = c(1, 1),
+  nth = 4,
+  mu = c(0,0), 
+  ace1 = c(.6, .2, .2), 
+  ace2 = c(.6, .2, .2),
   prop_missing = c(.50,.50),
   ifComb = FALSE,
   lbound = FALSE,
-  saveRaw = TRUE,
+  saveRaw = FALSE,
   Ord = TRUE)
 
-table_ord <- harvest(results_fit, "Ordinal")
-table_int <- harvest(results_fit, "Interval")
+use_for_plots2 <- make_parameter_df(results_fit = results_fit2, GroupRel = c(.5, 0.25), prop_missing = c(.50,.50), true_A = .6, true_C = .2, true_E = .2)
 
-final_results1 <- rbind(table_ord, table_int)
-final_results1 <- final_results1 %>% mutate(TV = VA11 + VC11 + VE11,
-                                          A = VA11 / TV,
-                                          C = VC11 / TV,
-                                          E = VE11 / TV,
-                                          censored = .50
-                                         ) %>%
-  select(-c("VA11","VC11","VE11","TV"))
-final_results1
+ results_fit3 <- Sim_Fit2(
+   GroupNames = c("FS", "HS"),
+   GroupSizes = c(1000, 1000),
+   nIter = 20,
+   SSeed = 64,
+   GroupRel = c(.5, .25),
+   GroupR_c = c(1, 1),
+   nth = 4,
+   mu = c(0,0),
+   ace1 = c(.6, .2, .2),
+   ace2 = c(.6, .2, .2),
+   prop_missing = c(.70,.70),
+   ifComb = FALSE,
+   lbound = FALSE,
+   saveRaw = FALSE,
+   Ord = TRUE)
 
-true_A <- 0.50
-true_C <- 0.20
-true_E <- 0.30
+use_for_plots3 <- make_parameter_df(results_fit = results_fit3, GroupRel = c(.5, 0.25), prop_missing = c(.70,.70), true_A = .6, true_C = .2, true_E = .2)
+
+results_fit4 <- Sim_Fit2(
+  GroupNames = c("FS", "HS"),
+  GroupSizes = c(1000, 1000),
+  nIter = 20,
+  SSeed = 64,
+  GroupRel = c(.5, .25), 
+  GroupR_c = c(1, 1),
+  nth = 4,
+  mu = c(0,0), 
+  ace1 = c(.6, .2, .2), 
+  ace2 = c(.6, .2, .2),
+  prop_missing = c(.1,.1),
+  ifComb = FALSE,
+  lbound = FALSE,
+  saveRaw = FALSE,
+  Ord = TRUE)
+
+use_for_plots4 <- make_parameter_df(results_fit = results_fit4, GroupRel = c(.5, 0.25), prop_missing = c(.1,.1), true_A = .6, true_C = .2, true_E = .2)
+
+results_fit5 <- Sim_Fit2(
+  GroupNames = c("FS", "HS"),
+  GroupSizes = c(1000, 1000),
+  nIter = 20,
+  SSeed = 64,
+  GroupRel = c(.5, .25),
+  GroupR_c = c(1, 1),
+  nth = 4,
+  mu = c(0,0),
+  ace1 = c(.6, .2, .2),
+  ace2 = c(.6, .2, .2),
+  prop_missing = c(0.05,0.05),
+  ifComb = FALSE,
+  lbound = FALSE,
+  saveRaw = FALSE,
+  Ord = TRUE)
+
+use_for_plots5 <- make_parameter_df(results_fit = results_fit5, GroupRel = c(.5, 0.25), prop_missing = c(0,0), true_A = .6, true_C = .2, true_E = .2)
+
+results_fit6 <- Sim_Fit2(
+  GroupNames = c("FS", "HS"),
+  GroupSizes = c(1000, 1000),
+  nIter = 20,
+  SSeed = 64,
+  GroupRel = c(.5, .25), 
+  GroupR_c = c(1, 1),
+  nth = 4,
+  mu = c(0,0), 
+  ace1 = c(.6, .2, .2), 
+  ace2 = c(.6, .2, .2),
+  prop_missing = c(.3,.3),
+  ifComb = FALSE,
+  lbound = FALSE,
+  saveRaw = FALSE,
+  Ord = TRUE)
+
+use_for_plots6 <- make_parameter_df(results_fit = results_fit6, GroupRel = c(.5, 0.25), prop_missing = c(.30,.30), true_A = .6, true_C = .2, true_E = .2)
+
+results_fit7 <- Sim_Fit2(
+  GroupNames = c("FS", "HS"),
+  GroupSizes = c(1000, 1000),
+  nIter = 20,
+  SSeed = 64,
+  GroupRel = c(.5, .25), 
+  GroupR_c = c(1, 1),
+  nth = 4,
+  mu = c(0,0), 
+  ace1 = c(.6, .2, .2), 
+  ace2 = c(.6, .2, .2),
+  prop_missing = c(.40,.40),
+  ifComb = FALSE,
+  lbound = FALSE,
+  saveRaw = FALSE,
+  Ord = TRUE)
+
+use_for_plots7 <- make_parameter_df(results_fit = results_fit7, GroupRel = c(.5, 0.25), prop_missing = c(.40,.40), true_A = .6, true_C = .2, true_E = .2)
+
+results_fit8 <- Sim_Fit2(
+  GroupNames = c("FS", "HS"),
+  GroupSizes = c(1000, 1000),
+  nIter = 20,
+  SSeed = 64,
+  GroupRel = c(.5, .25), 
+  GroupR_c = c(1, 1),
+  nth = 4,
+  mu = c(0,0), 
+  ace1 = c(.6, .2, .2), 
+  ace2 = c(.6, .2, .2),
+  prop_missing = c(.60,.60),
+  ifComb = FALSE,
+  lbound = FALSE,
+  saveRaw = FALSE,
+  Ord = TRUE)
+
+use_for_plots8 <- make_parameter_df(results_fit = results_fit8, GroupRel = c(.5, 0.25), prop_missing = c(.60,.60), true_A = .6, true_C = .2, true_E = .2)
+
+
+#make one frame 
+plot_time <- rbind(use_for_plots1, use_for_plots2, use_for_plots3, 
+                   use_for_plots4, use_for_plots5, 
+                   use_for_plots6, use_for_plots7, use_for_plots8)
+```
+
+plots - at some point I might make a function to handle this because its pretty formulaic 
+this gives bias for A,C,E and then the density distributions - which can be faceted by analysis, level of missingness, or just filtered down to one set of interesting results 
+
+```{r}
+
+#one time plot of this (practice before needing to repeat a bunch)
+#I want a line for each analysis, I want x to be the prop_missingness, and I want y to be the bias, and I want three graphs - A, C, E 
+
+ggplot(plot_time, mapping = aes(x = censored1, y = Bias_A, fill = Analysis, color = Analysis)) +
+     scale_color_manual(values = c("Ordinal" = "#9E7E38","Interval" = "#4A4E41")) + 
+     scale_fill_manual(values = c("#9E7E38","#4A4E41")) +
+     geom_smooth() +
+     scale_y_continuous(limits = c(-.3, .3)) +
+     geom_ribbon(aes(ymin = mean_bias_A - 1.96 * se_bias_A, 
+                  ymax = mean_bias_A + 1.96 * se_bias_A), 
+              alpha = 0.1, color = NA) +
+     theme_minimal() + 
+     labs( title = "Estimation Bias of A",
+           x = "Proportion of Censored Cases",
+           y = "Deviation from Simulated Parameter")
+
+#C
+
+ggplot(plot_time, mapping = aes(x = censored1, y = Bias_C, fill = Analysis, color = Analysis)) +
+     scale_color_manual(values = c("Ordinal" = "#9E7E38","Interval" = "#4A4E41")) + 
+     scale_fill_manual(values = c("#9E7E38","#4A4E41")) +
+     geom_smooth() +
+     scale_y_continuous(limits = c(-.3, .3)) +
+     geom_ribbon(aes(ymin = mean_bias_A - 1.96 * se_bias_A, 
+                  ymax = mean_bias_A + 1.96 * se_bias_A), 
+              alpha = 0.1, color = NA) +
+     theme_minimal() + 
+     labs( title = "Estimation Bias of C",
+           x = "Proportion of Censored Cases",
+           y = "Deviation from Simulated Parameter")
+
+#E
+
+ggplot(plot_time, mapping = aes(x = censored1, y = Bias_E, fill = Analysis, color = Analysis)) +
+     scale_color_manual(values = c("Ordinal" = "#9E7E38","Interval" = "#4A4E41")) + 
+     scale_fill_manual(values = c("#9E7E38","#4A4E41")) +
+     geom_smooth() +
+     scale_y_continuous(limits = c(-.3, .3)) +
+     geom_ribbon(aes(ymin = mean_bias_A - 1.96 * se_bias_A, 
+                  ymax = mean_bias_A + 1.96 * se_bias_A), 
+              alpha = 0.1, color = NA) +
+     theme_minimal() + 
+     labs( title = "Estimation Bias of E",
+           x = "Proportion of Censored Cases",
+           y = "Deviation from Simulated Parameter")
+
+#for density distributions
+#can in theory use plot time here but you need to filter for a specific censorship level first or it will be wonky
 
 #plot <- 
-ggplot(final_results) +
+ggplot(plot_time) +
   geom_density(aes(x = A, fill = "Additive Genetic (A)"), alpha = 0.4, color = "#9E7E38") +
   geom_density(aes(x = C, fill = "Shared Environment (C)"), alpha = 0.4, color = "#D4AF37") +
   geom_density(aes(x = E, fill = "Error (E)"), alpha = 0.4, color = "#4A4E41") +
@@ -73,7 +254,10 @@ ggplot(final_results) +
     "Shared Environment (C)" = "#D4AF37",
     "Error (E)" = "#4A4E41")) +
 
-  facet_wrap(~Analysis, ncol=1) +
+  facet_wrap(censored1~Analysis) +
+     
+     
+     scale_x_continuous(limits = c(0, 1)) +
 
     theme_minimal() +
   
@@ -91,211 +275,20 @@ ggplot(final_results) +
        fill = "Parameter Estimate")
 
 #ggsave('simresults.PNG', plot, bg = 'transparent', dpi = 300)
-```
-This returns a df that will give me more plotting options (rbind it for each condition I run, and then use to graph)
-
-Example: generating three sets identical except they are 25%, 50%, and 75% censored 
-```{r}
-source("~/Documents/Research/Github/risky_gambling/ACEsimFit2/R/plotSim.R")
-results_fit1 <- Sim_Fit2(
-  GroupNames = c("FS", "HS"),
-  GroupSizes = c(1000, 1000),
-  nIter = 10,
-  SSeed = 62,
-  GroupRel = c(.5, .25), 
-  GroupR_c = c(1, 1),
-  nth = 4,
-  mu = c(0,0), 
-  ace1 = c(.6, .2, .2), 
-  ace2 = c(.6, .2, .2),
-  prop_missing = c(.2,.2),
-  ifComb = FALSE,
-  lbound = FALSE,
-  saveRaw = TRUE,
-  Ord = TRUE)
-
-use_for_plots1 <- make_parameter_df(results_fit = results_fit1, GroupRel = c(.5, 0.25), prop_missing = c(.2,.2), true_A = .6, true_C = .2, true_E = .2)
-
-results_fit2 <- Sim_Fit2(
-  GroupNames = c("FS", "HS"),
-  GroupSizes = c(1000, 1000),
-  nIter = 10,
-  SSeed = 63,
-  GroupRel = c(.5, .25), 
-  GroupR_c = c(1, 1),
-  nth = 4,
-  mu = c(0,0), 
-  ace1 = c(.6, .2, .2), 
-  ace2 = c(.6, .2, .2),
-  prop_missing = c(.50,.50),
-  ifComb = FALSE,
-  lbound = FALSE,
-  saveRaw = TRUE,
-  Ord = TRUE)
-
-use_for_plots2 <- make_parameter_df(results_fit = results_fit2, GroupRel = c(.5, 0.25), prop_missing = c(.50,.50), true_A = .6, true_C = .2, true_E = .2)
-
-results_fit3 <- Sim_Fit2(
-  GroupNames = c("FS", "HS"),
-  GroupSizes = c(1000, 1000),
-  nIter = 10,
-  SSeed = 64,
-  GroupRel = c(.5, .25), 
-  GroupR_c = c(1, 1),
-  nth = 4,
-  mu = c(0,0), 
-  ace1 = c(.6, .2, .2), 
-  ace2 = c(.6, .2, .2),
-  prop_missing = c(.70,.70),
-  ifComb = FALSE,
-  lbound = FALSE,
-  saveRaw = TRUE,
-  Ord = TRUE)
-
-use_for_plots3 <- make_parameter_df(results_fit = results_fit3, GroupRel = c(.5, 0.25), prop_missing = c(.70,.70), true_A = .6, true_C = .2, true_E = .2)
-
-results_fit4 <- Sim_Fit2(
-  GroupNames = c("FS", "HS"),
-  GroupSizes = c(1000, 1000),
-  nIter = 10,
-  SSeed = 64,
-  GroupRel = c(.5, .25), 
-  GroupR_c = c(1, 1),
-  nth = 4,
-  mu = c(0,0), 
-  ace1 = c(.6, .2, .2), 
-  ace2 = c(.6, .2, .2),
-  prop_missing = c(.1,.1),
-  ifComb = FALSE,
-  lbound = FALSE,
-  saveRaw = TRUE,
-  Ord = TRUE)
-
-use_for_plots4 <- make_parameter_df(results_fit = results_fit4, GroupRel = c(.5, 0.25), prop_missing = c(.1,.1), true_A = .6, true_C = .2, true_E = .2)
-
-results_fit5 <- Sim_Fit2(
-  GroupNames = c("FS", "HS"),
-  GroupSizes = c(1000, 1000),
-  nIter = 10,
-  SSeed = 64,
-  GroupRel = c(.5, .25), 
-  GroupR_c = c(1, 1),
-  nth = 4,
-  mu = c(0,0), 
-  ace1 = c(.6, .2, .2), 
-  ace2 = c(.6, .2, .2),
-  prop_missing = c(0,0),
-  ifComb = FALSE,
-  lbound = FALSE,
-  saveRaw = TRUE,
-  Ord = TRUE)
-
-use_for_plots5 <- make_parameter_df(results_fit = results_fit5, GroupRel = c(.5, 0.25), prop_missing = c(0,0), true_A = .6, true_C = .2, true_E = .2)
-
-results_fit6 <- Sim_Fit2(
-  GroupNames = c("FS", "HS"),
-  GroupSizes = c(1000, 1000),
-  nIter = 10,
-  SSeed = 64,
-  GroupRel = c(.5, .25), 
-  GroupR_c = c(1, 1),
-  nth = 4,
-  mu = c(0,0), 
-  ace1 = c(.6, .2, .2), 
-  ace2 = c(.6, .2, .2),
-  prop_missing = c(.3,.3),
-  ifComb = FALSE,
-  lbound = FALSE,
-  saveRaw = TRUE,
-  Ord = TRUE)
-
-use_for_plots6 <- make_parameter_df(results_fit = results_fit6, GroupRel = c(.5, 0.25), prop_missing = c(.30,.30), true_A = .6, true_C = .2, true_E = .2)
-
-results_fit7 <- Sim_Fit2(
-  GroupNames = c("FS", "HS"),
-  GroupSizes = c(1000, 1000),
-  nIter = 10,
-  SSeed = 64,
-  GroupRel = c(.5, .25), 
-  GroupR_c = c(1, 1),
-  nth = 4,
-  mu = c(0,0), 
-  ace1 = c(.6, .2, .2), 
-  ace2 = c(.6, .2, .2),
-  prop_missing = c(.40,.40),
-  ifComb = FALSE,
-  lbound = FALSE,
-  saveRaw = TRUE,
-  Ord = TRUE)
-
-use_for_plots7 <- make_parameter_df(results_fit = results_fit7, GroupRel = c(.5, 0.25), prop_missing = c(.40,.40), true_A = .6, true_C = .2, true_E = .2)
-
-results_fit8 <- Sim_Fit2(
-  GroupNames = c("FS", "HS"),
-  GroupSizes = c(1000, 1000),
-  nIter = 10,
-  SSeed = 64,
-  GroupRel = c(.5, .25), 
-  GroupR_c = c(1, 1),
-  nth = 4,
-  mu = c(0,0), 
-  ace1 = c(.6, .2, .2), 
-  ace2 = c(.6, .2, .2),
-  prop_missing = c(.60,.60),
-  ifComb = FALSE,
-  lbound = FALSE,
-  saveRaw = TRUE,
-  Ord = TRUE)
-
-use_for_plots8 <- make_parameter_df(results_fit = results_fit8, GroupRel = c(.5, 0.25), prop_missing = c(.60,.60), true_A = .6, true_C = .2, true_E = .2)
-
-
-#make one frame 
-plot_time <- rbind(use_for_plots1, use_for_plots2, #use_for_plots3, 
-                   use_for_plots4, #use_for_plots5, 
-                   use_for_plots6, use_for_plots7, use_for_plots8)
-
-#one time plot of this (practice before needing to repeat a bunch)
-#I want a line for each analysis, I want x to be the prop_missingness, and I want y to be the bias, and I want three graphs - A, C, E 
-
-ggplot(plot_time, mapping = aes(x = censored1, y = Bias_A, fill = Analysis, color = Analysis)) +
-     scale_color_manual(values = c("Ordinal" = "#9E7E38","Interval" = "#4A4E41")) + 
-     scale_fill_manual(values = c("#9E7E38","#4A4E41")) +
-     geom_smooth() +
-     geom_ribbon(aes(ymin = mean_bias_A - 1.96 * se_bias_A, 
-                  ymax = mean_bias_A + 1.96 * se_bias_A), 
-              alpha = 0.1, color = NA) +
-     theme_minimal() + 
-     labs( title = "Estimation Bias of A",
-           x = "Proportion of Censored Cases",
-           y = "Deviation from Simulated Parameter")
-
-#C
-
-ggplot(plot_time, mapping = aes(x = censored1, y = Bias_C, fill = Analysis, color = Analysis)) +
-     scale_color_manual(values = c("Ordinal" = "#9E7E38","Interval" = "#4A4E41")) + 
-     scale_fill_manual(values = c("#9E7E38","#4A4E41")) +
-     geom_smooth() +
-     geom_ribbon(aes(ymin = mean_bias_A - 1.96 * se_bias_A, 
-                  ymax = mean_bias_A + 1.96 * se_bias_A), 
-              alpha = 0.1, color = NA) +
-     theme_minimal() + 
-     labs( title = "Estimation Bias of C",
-           x = "Proportion of Censored Cases",
-           y = "Deviation from Simulated Parameter")
-
-#E
-
-ggplot(plot_time, mapping = aes(x = censored1, y = Bias_E, fill = Analysis, color = Analysis)) +
-     scale_color_manual(values = c("Ordinal" = "#9E7E38","Interval" = "#4A4E41")) + 
-     scale_fill_manual(values = c("#9E7E38","#4A4E41")) +
-     geom_smooth() +
-     geom_ribbon(aes(ymin = mean_bias_A - 1.96 * se_bias_A, 
-                  ymax = mean_bias_A + 1.96 * se_bias_A), 
-              alpha = 0.1, color = NA) +
-     theme_minimal() + 
-     labs( title = "Estimation Bias of E",
-           x = "Proportion of Censored Cases",
-           y = "Deviation from Simulated Parameter")
      
+```
+
+I'm also interested in varying the ratio of sibs to half sibs and seeing what that does - will need to follow up with power analyses because it is probably more of a power thing than an analysis type (ordinal might suck with more disproportionate ratio just because of cell size issues)
+
+```{r}
+
+
+
+
+
+
+
+
+
+
 ```
