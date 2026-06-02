@@ -71,16 +71,16 @@ head(kindata)
 #>    GroupName    R r_c id          A1          A2          C1          C2
 #> 48   SStwins 0.75   1  1  0.02248168  0.02248168 -0.03448461 -0.03448461
 #> 66   SStwins 0.75   1  2  0.87922301  0.73493224 -0.42473098 -0.42473098
-#> 47   SStwins 0.75   1  3 -0.28043976 -0.28043976 -0.25064123 -0.25064124
-#> 14   SStwins 0.75   1  4 -0.76368579 -0.76368580 -0.59577363 -0.59577363
-#> 16   SStwins 0.75   1  5 -0.73345621 -0.73345622  0.18573124  0.18573124
+#> 47   SStwins 0.75   1  3 -0.28043976 -0.28043976 -0.25064124 -0.25064124
+#> 14   SStwins 0.75   1  4 -0.76368579 -0.76368579 -0.59577363 -0.59577363
+#> 16   SStwins 0.75   1  5 -0.73345621 -0.73345621  0.18573124  0.18573124
 #> 95   SStwins 0.75   1  6 -0.01048472 -0.06118696  0.19529037  0.19529037
 #>             E1          E2          y1         y2
 #> 48  0.09741996 -0.19555812  0.08541702 -0.2075610
 #> 66 -0.49639316 -0.41603625 -0.04190114 -0.1058350
 #> 47 -0.42105074 -0.03581002 -0.95213174 -0.5668910
 #> 14 -0.33618089 -0.81363682 -1.69564031 -2.1730962
-#> 16 -0.37056277  0.01884294 -0.91828773 -0.5288820
+#> 16 -0.37056277  0.01884294 -0.91828774 -0.5288820
 #> 95  0.39216748 -0.67556163  0.57697313 -0.5414582
 ```
 
@@ -138,7 +138,7 @@ results_fit <- Sim_Fit(
 time2 <- Sys.time()
 ## FYI, the time used for the results above is here. So design your simulation wisely!!!
 time2 - time1
-#> Time difference of 31.38625 secs
+#> Time difference of 42.8177 secs
 ```
 
 Here’s one example of the nested comparison table from the results
@@ -148,9 +148,9 @@ Here’s one example of the nested comparison table from the results
 results_fit[["Iteration1"]][["Results"]][["nest"]]
 #>            base comparison ep minus2LL  df      AIC     diffLL diffdf
 #> 1 oneACEvc_1cov       <NA>  4 896.1042 356 904.1042         NA     NA
-#> 2 oneACEvc_1cov    oneAEvc  3 897.0780 357 903.0780  0.9737668      1
+#> 2 oneACEvc_1cov    oneAEvc  3 897.0780 357 903.0780  0.9737667      1
 #> 3 oneACEvc_1cov    oneCEvc  3 898.0232 357 904.0232  1.9190034      1
-#> 4 oneACEvc_1cov     oneEvc  2 980.2935 358 984.2935 84.1892958      2
+#> 4 oneACEvc_1cov     oneEvc  2 980.2935 358 984.2935 84.1892959      2
 #>              p
 #> 1           NA
 #> 2 3.237426e-01
