@@ -89,9 +89,9 @@ fit_OrdACE <- function(data_1, data_2, GroupRel = c(1, .5), GroupR_c = c(1, 1),
   svITh <- 1 # start value for increments
   svTh <- matrix(rep(c(svLTh,(rep(svITh,nth-1)))),nrow=nth,ncol=nv) # start value for thresholds
   lbTh <- matrix(rep(c(-3,(rep(0.001,nth-1))),nv),nrow=nth,ncol=nv) # lower bounds for thresholds
-  svPa <- .2 # start value for path coefficient
-  svPc <- .3
-  svPe <- .4 #start value for the path coefficient e
+  svPa <- .6 # start value for path coefficient
+  svPc <- .2
+  svPe <- .2 #start value for the path coefficient e
 
   # variance matrix
 
