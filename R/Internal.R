@@ -13,3 +13,32 @@ rmvn <- function(n, sigma) {
     ncol = ncol(sigma)
   ) %*% Sh
 }
+
+# Apply random missingness by GroupName (not by R value, which breaks when groups
+# share the same relatedness), then compute 4-category ordinal columns.
+# Cutpoints: (-Inf, -2] = 1, (-2, -1] = 2, (-1, 1) = 3, [1, Inf) = 4.
+# NA y values produce NA ordinal scores; missingness is cascaded from y1 to y2.
+.add_missing_and_ordinal <- function(df, GroupNames, prop_missing) {
+  in_g1 <- df$GroupName == GroupNames[1]
+  in_g2 <- df$GroupName == GroupNames[2]
+
+  miss_mask <- logical(nrow(df))
+  miss_mask[in_g1] <- stats::runif(sum(in_g1)) < prop_missing[1]
+  miss_mask[in_g2] <- stats::runif(sum(in_g2)) < prop_missing[2]
+
+  df$y1[miss_mask] <- NA_real_
+  df$y2[miss_mask] <- NA_real_
+
+  .to_ord <- function(y) {
+    out <- rep(NA_integer_, length(y))
+    out[!is.na(y) & y <= -2]           <- 1L
+    out[!is.na(y) & y > -2 & y <= -1]  <- 2L
+    out[!is.na(y) & y > -1 & y <   1]  <- 3L
+    out[!is.na(y) & y >=  1]           <- 4L
+    out
+  }
+
+  df$Ord_1 <- .to_ord(df$y1)
+  df$Ord_2 <- .to_ord(df$y2)
+  df
+}
