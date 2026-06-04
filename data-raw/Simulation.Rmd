@@ -185,6 +185,9 @@ use_for_plots8 <- make_parameter_df(results_fit = results_fit8, GroupRel = c(.5,
 plot_time <- rbind(use_for_plots1, use_for_plots2, use_for_plots3, 
                    use_for_plots4, use_for_plots5, 
                    use_for_plots6, use_for_plots7, use_for_plots8)
+
+#save as RDS - r object -- build into workflow --
+saveRDS(plot_time, file = "data-raw/plot_time_censored.rds")
 ```
 
 plots - at some point I might make a function to handle this because its pretty formulaic 
@@ -418,9 +421,11 @@ use_for_plots7 <- make_parameter_df(results_fit = results_fit7, GroupRel = c(.5,
 
 
 #make the frame
-plot_time <- rbind(use_for_plots1, use_for_plots2, use_for_plots3, 
+plot_time2 <- rbind(use_for_plots1, use_for_plots2, use_for_plots3, 
                    use_for_plots4, use_for_plots5, 
                    use_for_plots6, use_for_plots7)
+
+saveRDS(plot_time2, file = "data-raw/plot_time_ratio.rds")
 
 ```
 
@@ -505,7 +510,7 @@ ggplot(plot_time, mapping = aes(x = censored1, y = Bias_E, fill = Analysis, colo
 #for density distributions
 #can in theory use plot time here but you need to filter for a specific censorship level first or it will be wonky
 
-#plot <- 
+plot <- 
      ggplot(plot_time) +
   geom_density(aes(x = A, fill = "Additive Genetic (A)"), alpha = 0.4, color = "#9E7E38") +
   geom_density(aes(x = C, fill = "Shared Environment (C)"), alpha = 0.4, color = "#D4AF37") +
@@ -540,7 +545,7 @@ ggplot(plot_time, mapping = aes(x = censored1, y = Bias_E, fill = Analysis, colo
        y = "Density",
        fill = "Parameter Estimate")
 
-#ggsave('simresults.PNG', plot, bg = 'transparent', dpi = 300)
+ggsave('simresultsE.PNG', plot, bg = 'transparent', dpi = 300)
 
 ```
 
@@ -548,33 +553,48 @@ ggplot(plot_time, mapping = aes(x = censored1, y = Bias_E, fill = Analysis, colo
 Another plotting option -- do the three biases in one chart and facet by analysis 
 ```{r warnings = FALSE, message = FALSE}
 
-other_bias_option <- ggplot(plot_time) + 
+#do a pivot so that we have 6 rows per iteration - 3 ordinal (one per parameter) and 3 interval
+
+plot_long <- plot_time %>%
+     select(c("Iteration","Analysis", "censored1","censored2","R1","R2","mean_bias_A","mean_bias_C","mean_bias_E")) %>%
+     pivot_longer(
+          cols = c("mean_bias_A","mean_bias_C","mean_bias_E"),
+          names_to = "Estimate",
+          values_to = "mean_bias"
+     )
+
+#I successfully did a pivot first try - very satisfying
+
+other_bias_option <- 
      
-     geom_smooth(aes(x = censored1, y = mean_bias_A, fill = "Additive Genetic (A)"), alpha = 0.4, color = "#9E7E38") +
-  geom_smooth(aes(x = censored1, y = mean_bias_C, fill = "Shared Environment (C)"), alpha = 0.4, color = "#D4AF37") +
-  geom_smooth(aes(x = censored1, y = mean_bias_E, fill = "Error (E)"), alpha = 0.4, color = "#4A4E41") +
-     facet_grid(~Analysis) +
+     ggplot(plot_long) + 
+     
+     geom_smooth(aes(x = censored1, y = mean_bias), color = "#9E7E38") +
+#  geom_smooth(aes(x = censored1, y = mean_bias_C, fill = "Shared Environment (C)"), alpha = 0.4, color = "#D4AF37") +
+ # geom_smooth(aes(x = censored1, y = mean_bias_E, fill = "Error (E)"), alpha = 0.4, color = "#4A4E41") +
+     facet_grid(Estimate~Analysis) +
   scale_y_continuous(limits = c(-.1, .1)) +
-     scale_fill_manual(values = c("#9E7E38","#D4AF37","#4A4E41")) +
+    scale_fill_manual(values = c("#9E7E38")) +
      theme_minimal() +
       
      labs( title = "Estimation Bias of A, C, and E",
            x = "Proportion of Censored Cases",
            y = "Deviation from Simulated Parameter") +
+     
      theme(text = element_text(family = "oswald", color = "#9E7E38"),
-    plot.title = element_text(family = "oswald", face = "plain", size = 50),
-    axis.title = element_text(family = "oswald", size = 50),
-    axis.text  = element_text(family = "oswald", color = "white", size = 50),
-    legend.text = element_text(family = "oswald", color = "white", size = 20),
+    plot.title = element_text(family = "oswald", face = "plain", size = 15),
+    axis.title = element_text(family = "oswald", size = 15),
+    axis.text  = element_text(family = "oswald", color = "black", size = 15),
+    legend.text = element_text(family = "oswald", color = "black", size = 15),
     panel.grid = element_blank(),
     panel.background = element_rect(fill = "transparent", color = NA),
     plot.background = element_rect(fill = "transparent", color = NA),
-    axis.line = element_line(color = "white", linewidth = 0.6),
-    strip.text = element_text(color = "white", face = "plain", size = 20),
-    legend.position = c(0.95, 0.95),
+    axis.line = element_line(color = "black", linewidth = 0.6),
+    strip.text = element_text(color = "black", face = "plain", size = 15),
+    legend.position = c(0.25, 0.175)
   ) 
 
-ggsave('Bias_Other.PNG', other_bias_option, bg = 'transparent', dpi = 300)
+#ggsave('Bias_Other.PNG', other_bias_option, bg = 'transparent', dpi = 300)
 other_bias_option
 ```
 
