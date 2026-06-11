@@ -34,7 +34,7 @@ kinsim_double <- function(GroupNames = c("KinPair1", "KinPair2"),
                           ace1 = c(1, 1, 1),
                           ace2 = c(1, 1, 1),
                           ifComb = FALSE) {
-  if (!ifComb) {
+  if (ifComb==FALSE) {
     df_N1 <- kinsim_single(
       name = GroupNames[1],
       Rel = GroupRel[1],
@@ -52,8 +52,9 @@ kinsim_double <- function(GroupNames = c("KinPair1", "KinPair2"),
       ace = ace2
     )
     df_final <- rbind(df_N1, df_N2)
-    # return(df_final)
+
   } else {
+    # The following code simulates two groups of kin pairs by combining MZ twins and DZ twins to achieve the required genetic relatedness (.5<R<1).
     if ((GroupRel[1] == 1 | GroupRel[1] == .5) & GroupRel[2] != 1 & GroupRel[2] != .5) {
       df_N1 <- kinsim_single(
         name = GroupNames[1],
@@ -84,8 +85,7 @@ kinsim_double <- function(GroupNames = c("KinPair1", "KinPair2"),
       df_N2$id <- 1:nrow(df_N2)
       df_N2$R <- GroupRel[2]
       df_final <- rbind(df_N1, df_N2)
-    }
-    if (GroupRel[1] != 1 & GroupRel[1] != .5 & (GroupRel[2] == 1 | GroupRel[2] == .5)) {
+    } else if (GroupRel[1] != 1 & GroupRel[1] != .5 & (GroupRel[2] == 1 | GroupRel[2] == .5)) {
       df1MZ <- kinsim_single(
         name = GroupNames[1],
         Rel = 1,
@@ -115,8 +115,7 @@ kinsim_double <- function(GroupNames = c("KinPair1", "KinPair2"),
         ace = ace2
       )
       df_final <- rbind(df_N1, df_N2)
-    }
-    if ((GroupRel[1] == 1 | GroupRel[1] == .5) & (GroupRel[2] == 1 | GroupRel[2] == .5)) {
+    } else if ((GroupRel[1] == 1 | GroupRel[1] == .5) & (GroupRel[2] == 1 | GroupRel[2] == .5)) {
       df_N1 <- kinsim_single(
         name = GroupNames[1],
         Rel = GroupRel[1],
@@ -134,8 +133,7 @@ kinsim_double <- function(GroupNames = c("KinPair1", "KinPair2"),
         ace = ace2
       )
       df_final <- rbind(df_N1, df_N2)
-    }
-    if (GroupRel[1] != 1 & GroupRel[1] != .5 & GroupRel[2] != 1 & GroupRel[2] != .5) {
+    } else if (GroupRel[1] != 1 & GroupRel[1] != .5 & GroupRel[2] != 1 & GroupRel[2] != .5) {
       df1MZ <- kinsim_single(
         name = GroupNames[1],
         Rel = 1,
@@ -179,6 +177,8 @@ kinsim_double <- function(GroupNames = c("KinPair1", "KinPair2"),
       df_N2$R <- GroupRel[2]
 
       df_final <- rbind(df_N1, df_N2)
+    } else {
+      stop("Invalid input for GroupRel. Please ensure that GroupRel values are either 1, .5, or between .5 and 1.")
     }
   }
   return(df_final)
