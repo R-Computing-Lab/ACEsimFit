@@ -21,3 +21,4 @@ Config/testthat/edition: 3
 VignetteBuilder: knitr
 URL: https://r-computing-lab.github.io/ACEsimFit/
 Config/roxygen2/version: 8.0.0
+RoxygenNote: 7.3.3
