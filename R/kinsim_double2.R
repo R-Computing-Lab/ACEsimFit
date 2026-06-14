@@ -196,5 +196,5 @@ kinsim_double2 <- function(GroupNames = c("KinPair1", "KinPair2"),
                                          prop_missing=prop_missing)
 
   }
-  return(df_final)
+  return(df_final) #I think the problem is here? my error message is about df_missing not being found - my only thought is that df_missing is the object returned by that function, but we only ask for df_final bc thats all we care about in the end
 }
