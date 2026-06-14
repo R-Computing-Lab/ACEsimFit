@@ -73,11 +73,11 @@ Sim_Fit2 <- function(GroupNames = c("KinPair1", "KinPair2"),
                     )
                } else {
 
-                    assign("df_temp", df_temp, envir = .GlobalEnv)
-                    assign("table", table, envir = .GlobalEnv)
+                   # assign("df_temp", df_temp, envir = .GlobalEnv)
+                #    assign("table", table, envir = .GlobalEnv)
 
                     list(
-                         Results = ACEsimFit::fit_uniACE(
+                         Results = fit_uniACE(
                               data_1 = df_temp[which(df_temp$GroupName == GroupNames[1]), c("y1", "y2")],
                               data_2 = df_temp[which(df_temp$GroupName == GroupNames[2]), c("y1", "y2")],
                               GroupRel = GroupRel, GroupR_c = GroupR_c, lbound = lbound),
