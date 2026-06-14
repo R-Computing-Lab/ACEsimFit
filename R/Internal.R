@@ -15,11 +15,6 @@ rmvn <- function(n, sigma) {
 }
 
 
-# Apply random missingness by GroupName (not by R value, which breaks when groups
-# share the same relatedness), then compute 4-category ordinal columns.
-# Cutpoints: (-Inf, -2] = 1, (-2, -1] = 2, (-1, 1) = 3, [1, Inf) = 4.
-# NA y values produce NA ordinal scores; missingness is cascaded from y1 to y2.
-.add_missing_and_ordinal <- function(df, GroupNames, prop_missing) {
 
 #' add missing
 #' @description Internal function to add missingness to the simulated data frame.
@@ -47,8 +42,8 @@ rmvn <- function(n, sigma) {
   df
 }
 
-#' add_missing_and_ordinal
-#'
+#' add missing and ordinal
+#' @description Internal function to add missingness and compute ordinal scores for the simulated data frame.
 #' @details Applies random missingness to the 'y1' and 'y2' columns of the input data frame based on the specified proportions for each group, and
 #' then compute 4-category ordinal columns.
 #' Cutpoints: (-Inf, -2] = 1, (-2, -1] = 2, (-1, 1) = 3, [1, Inf) = 4.
@@ -70,11 +65,6 @@ rmvn <- function(n, sigma) {
     out
   }
 
-
-  df$Ord_1 <- .to_ord(df$y1)
-  df$Ord_2 <- .to_ord(df$y2)
-  df
-}
 
   df_missing$Ord_1 <- .to_ord(df_missing$y1)
   df_missing$Ord_2 <- .to_ord(df_missing$y2)
