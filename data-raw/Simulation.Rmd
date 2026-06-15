@@ -11,27 +11,22 @@ library(OpenMx)
 library(tidyr)
 library(ggplot2)
 library(dplyr)
-library(ACEsimFit)
 library(polycor)
 library(purrr)
 library(showtext)
+library(here)
 showtext_auto()
-source("~/Documents/Research/Github/risky_gambling/ACEsimFit2/R/Sim_Fit2.R")
-source("~/Documents/Research/Github/risky_gambling/ACEsimFit2/R/kinsim_double2.R")
-source("~/Documents/Research/Github/risky_gambling/ACEsimFit2/R/fit_OrdACE.R")
-source("~/Documents/Research/Github/risky_gambling/ACEsimFit2/R/Harvest.R")
 source("~/Documents/Research/Github/risky_gambling/data/miFunctions.R")
-source("~/Documents/Research/Github/risky_gambling/ACEsimFit2/R/Internal.R")
 ```
 
 
 Example: generating three sets identical except they are 25%, 50%, and 75% censored (with sibs and half sibs)
 ```{r}
-source("~/Documents/Research/Github/risky_gambling/ACEsimFit2/R/plotSim.R")
-results_fit12 <- Sim_Fit2(
+
+results_fit1 <- Sim_Fit2(
   GroupNames = c("FS", "HS"),
   GroupSizes = c(1000, 1000),
-  nIter = 2,
+  nIter = 20,
   SSeed = 62,
   GroupRel = c(.5, .25), 
   GroupR_c = c(1, 1),
@@ -45,7 +40,11 @@ results_fit12 <- Sim_Fit2(
   saveRaw = FALSE,
   Ord = TRUE)
 
-use_for_plots12 <- make_parameter_df(results_fit = results_fit12, GroupRel = c(.5, 0.25), prop_missing = c(.2,.2), true_A = .6, true_C = .2, true_E = .2)
+source("~/Documents/Research/Github/risky_gambling/ACEsimFit/data-raw/Harvest.R")
+
+source("~/Documents/Research/Github/risky_gambling/ACEsimFit2/R/plotSim.R")
+
+use_for_plots1 <- make_parameter_df(results_fit = results_fit1, GroupRel = c(.5, 0.25), prop_missing = c(.2,.2), true_A = .6, true_C = .2, true_E = .2)
 
 results_fit2 <- Sim_Fit2(
   GroupNames = c("FS", "HS"),
@@ -85,109 +84,110 @@ use_for_plots2 <- make_parameter_df(results_fit = results_fit2, GroupRel = c(.5,
 
 use_for_plots3 <- make_parameter_df(results_fit = results_fit3, GroupRel = c(.5, 0.25), prop_missing = c(.70,.70), true_A = .6, true_C = .2, true_E = .2)
 
-results_fit4 <- Sim_Fit2(
-  GroupNames = c("FS", "HS"),
-  GroupSizes = c(1000, 1000),
-  nIter = 20,
-  SSeed = 64,
-  GroupRel = c(.5, .25), 
-  GroupR_c = c(1, 1),
-  nth = 4,
-  mu = c(0,0), 
-  ace1 = c(.6, .2, .2), 
-  ace2 = c(.6, .2, .2),
-  prop_missing = c(.1,.1),
-  ifComb = FALSE,
-  lbound = FALSE,
-  saveRaw = FALSE,
-  Ord = TRUE)
-
-use_for_plots4 <- make_parameter_df(results_fit = results_fit4, GroupRel = c(.5, 0.25), prop_missing = c(.1,.1), true_A = .6, true_C = .2, true_E = .2)
-
-results_fit5 <- Sim_Fit2(
-  GroupNames = c("FS", "HS"),
-  GroupSizes = c(1000, 1000),
-  nIter = 20,
-  SSeed = 64,
-  GroupRel = c(.5, .25),
-  GroupR_c = c(1, 1),
-  nth = 4,
-  mu = c(0,0),
-  ace1 = c(.6, .2, .2),
-  ace2 = c(.6, .2, .2),
-  prop_missing = c(0.05,0.05),
-  ifComb = FALSE,
-  lbound = FALSE,
-  saveRaw = FALSE,
-  Ord = TRUE)
-
-use_for_plots5 <- make_parameter_df(results_fit = results_fit5, GroupRel = c(.5, 0.25), prop_missing = c(0,0), true_A = .6, true_C = .2, true_E = .2)
-
-results_fit6 <- Sim_Fit2(
-  GroupNames = c("FS", "HS"),
-  GroupSizes = c(1000, 1000),
-  nIter = 20,
-  SSeed = 64,
-  GroupRel = c(.5, .25), 
-  GroupR_c = c(1, 1),
-  nth = 4,
-  mu = c(0,0), 
-  ace1 = c(.6, .2, .2), 
-  ace2 = c(.6, .2, .2),
-  prop_missing = c(.3,.3),
-  ifComb = FALSE,
-  lbound = FALSE,
-  saveRaw = FALSE,
-  Ord = TRUE)
-
-use_for_plots6 <- make_parameter_df(results_fit = results_fit6, GroupRel = c(.5, 0.25), prop_missing = c(.30,.30), true_A = .6, true_C = .2, true_E = .2)
-
-results_fit7 <- Sim_Fit2(
-  GroupNames = c("FS", "HS"),
-  GroupSizes = c(1000, 1000),
-  nIter = 20,
-  SSeed = 64,
-  GroupRel = c(.5, .25), 
-  GroupR_c = c(1, 1),
-  nth = 4,
-  mu = c(0,0), 
-  ace1 = c(.6, .2, .2), 
-  ace2 = c(.6, .2, .2),
-  prop_missing = c(.40,.40),
-  ifComb = FALSE,
-  lbound = FALSE,
-  saveRaw = FALSE,
-  Ord = TRUE)
-
-use_for_plots7 <- make_parameter_df(results_fit = results_fit7, GroupRel = c(.5, 0.25), prop_missing = c(.40,.40), true_A = .6, true_C = .2, true_E = .2)
-
-results_fit8 <- Sim_Fit2(
-  GroupNames = c("FS", "HS"),
-  GroupSizes = c(1000, 1000),
-  nIter = 20,
-  SSeed = 64,
-  GroupRel = c(.5, .25), 
-  GroupR_c = c(1, 1),
-  nth = 4,
-  mu = c(0,0), 
-  ace1 = c(.6, .2, .2), 
-  ace2 = c(.6, .2, .2),
-  prop_missing = c(.60,.60),
-  ifComb = FALSE,
-  lbound = FALSE,
-  saveRaw = FALSE,
-  Ord = TRUE)
-
-use_for_plots8 <- make_parameter_df(results_fit = results_fit8, GroupRel = c(.5, 0.25), prop_missing = c(.60,.60), true_A = .6, true_C = .2, true_E = .2)
-
+# results_fit4 <- Sim_Fit2(
+#   GroupNames = c("FS", "HS"),
+#   GroupSizes = c(1000, 1000),
+#   nIter = 20,
+#   SSeed = 64,
+#   GroupRel = c(.5, .25), 
+#   GroupR_c = c(1, 1),
+#   nth = 4,
+#   mu = c(0,0), 
+#   ace1 = c(.6, .2, .2), 
+#   ace2 = c(.6, .2, .2),
+#   prop_missing = c(.1,.1),
+#   ifComb = FALSE,
+#   lbound = FALSE,
+#   saveRaw = FALSE,
+#   Ord = TRUE)
+# 
+# #use_for_plots4 <- make_parameter_df(results_fit = results_fit4, GroupRel = c(.5, 0.25), prop_missing = c(.1,.1), true_A = .6, true_C = .2, true_E = .2)
+# 
+# results_fit5 <- Sim_Fit2(
+#   GroupNames = c("FS", "HS"),
+#   GroupSizes = c(1000, 1000),
+#   nIter = 20,
+#   SSeed = 64,
+#   GroupRel = c(.5, .25),
+#   GroupR_c = c(1, 1),
+#   nth = 4,
+#   mu = c(0,0),
+#   ace1 = c(.6, .2, .2),
+#   ace2 = c(.6, .2, .2),
+#   prop_missing = c(0.05,0.05),
+#   ifComb = FALSE,
+#   lbound = FALSE,
+#   saveRaw = FALSE,
+#   Ord = TRUE)
+# 
+# #use_for_plots5 <- make_parameter_df(results_fit = results_fit5, GroupRel = c(.5, 0.25), prop_missing = c(0,0), true_A = .6, true_C = .2, true_E = .2)
+# 
+# results_fit6 <- Sim_Fit2(
+#   GroupNames = c("FS", "HS"),
+#   GroupSizes = c(1000, 1000),
+#   nIter = 20,
+#   SSeed = 64,
+#   GroupRel = c(.5, .25), 
+#   GroupR_c = c(1, 1),
+#   nth = 4,
+#   mu = c(0,0), 
+#   ace1 = c(.6, .2, .2), 
+#   ace2 = c(.6, .2, .2),
+#   prop_missing = c(.3,.3),
+#   ifComb = FALSE,
+#   lbound = FALSE,
+#   saveRaw = FALSE,
+#   Ord = TRUE)
+# 
+# use_for_plots6 <- make_parameter_df(results_fit = results_fit6, GroupRel = c(.5, 0.25), prop_missing = c(.30,.30), true_A = .6, true_C = .2, true_E = .2)
+# 
+# results_fit7 <- Sim_Fit2(
+#   GroupNames = c("FS", "HS"),
+#   GroupSizes = c(1000, 1000),
+#   nIter = 20,
+#   SSeed = 64,
+#   GroupRel = c(.5, .25), 
+#   GroupR_c = c(1, 1),
+#   nth = 4,
+#   mu = c(0,0), 
+#   ace1 = c(.6, .2, .2), 
+#   ace2 = c(.6, .2, .2),
+#   prop_missing = c(.40,.40),
+#   ifComb = FALSE,
+#   lbound = FALSE,
+#   saveRaw = FALSE,
+#   Ord = TRUE)
+# 
+# use_for_plots7 <- make_parameter_df(results_fit = results_fit7, GroupRel = c(.5, 0.25), prop_missing = c(.40,.40), true_A = .6, true_C = .2, true_E = .2)
+# 
+# results_fit8 <- Sim_Fit2(
+#   GroupNames = c("FS", "HS"),
+#   GroupSizes = c(1000, 1000),
+#   nIter = 20,
+#   SSeed = 64,
+#   GroupRel = c(.5, .25), 
+#   GroupR_c = c(1, 1),
+#   nth = 4,
+#   mu = c(0,0), 
+#   ace1 = c(.6, .2, .2), 
+#   ace2 = c(.6, .2, .2),
+#   prop_missing = c(.60,.60),
+#   ifComb = FALSE,
+#   lbound = FALSE,
+#   saveRaw = FALSE,
+#   Ord = TRUE)
+# 
+# use_for_plots8 <- make_parameter_df(results_fit = results_fit8, GroupRel = c(.5, 0.25), prop_missing = c(.60,.60), true_A = .6, true_C = .2, true_E = .2)
+# 
 
 #make one frame 
-plot_time <- rbind(use_for_plots1, use_for_plots2, use_for_plots3, 
-                   use_for_plots4, use_for_plots5, 
-                   use_for_plots6, use_for_plots7, use_for_plots8)
+plot_time <- rbind(use_for_plots1, use_for_plots2, use_for_plots3 #, 
+                #   use_for_plots4, use_for_plots5, 
+                #   use_for_plots6, use_for_plots7, use_for_plots8
+                )
 
 #save as RDS - r object -- build into workflow --
-saveRDS(plot_time, file = "data-raw/plot_time_censored.rds")
+saveRDS(plot_time, file = here::here("data-raw/plot_time_censored.rds"))
 ```
 
 plots - at some point I might make a function to handle this because its pretty formulaic 
@@ -509,6 +509,11 @@ ggplot(plot_time, mapping = aes(x = censored1, y = Bias_E, fill = Analysis, colo
 
 #for density distributions
 #can in theory use plot time here but you need to filter for a specific censorship level first or it will be wonky
+
+
+true_A <- .6
+true_C <- .2
+true_E <- .2
 
 plot <- 
      ggplot(plot_time) +
